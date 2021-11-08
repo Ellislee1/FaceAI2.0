@@ -21,6 +21,7 @@ namespace FaceAI
         private User currentUser;
         private Database dbs;
         private Bitmap userImage;
+        private Bitmap compareImage;
 
         internal User CurrentUser { get => currentUser;}
 
@@ -29,6 +30,8 @@ namespace FaceAI
             this.PATH_TO_TEMP = tempPath;
             dbs = new Database();
             InitializeComponent();
+
+            pctCompare.SizeMode = PictureBoxSizeMode.StretchImage;
         }
 
         private void btnRegister_Click(object sender, EventArgs e)
@@ -47,7 +50,8 @@ namespace FaceAI
             {
                 userImage = null;
                 currentUser = null;
-                pctUser.Image.Dispose();
+                if (pctUser.Image != null) { pctUser.Image.Dispose(); }
+                
 
                 Directory.Delete(PATH_TO_TEMP, true);
             }
@@ -121,6 +125,18 @@ namespace FaceAI
             Form profile = new NewProfile(this);
             profile.Show();
             this.Hide();
+        }
+
+        private void btnUpload_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog filedialog = new OpenFileDialog();
+            filedialog.Filter = "JPEG files(*.jpg)| *.jpg |PNG files(*.png)| *.png|All files (*.*)|*.*";
+            if (filedialog.ShowDialog() == DialogResult.OK)
+            {
+                string filePath = filedialog.FileName;
+                compareImage = new Bitmap(filePath);
+                pctCompare.Image = compareImage;
+            }
         }
     }
 }

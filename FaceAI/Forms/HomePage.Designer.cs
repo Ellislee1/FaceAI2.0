@@ -37,15 +37,18 @@ namespace FaceAI
             this.btnLogIn = new System.Windows.Forms.Button();
             this.grpLogin = new System.Windows.Forms.GroupBox();
             this.pnlUser = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
+            this.lstProfiles = new System.Windows.Forms.ListBox();
             this.btnNewProfile = new System.Windows.Forms.Button();
             this.pctUser = new System.Windows.Forms.PictureBox();
             this.btnLogout = new System.Windows.Forms.Button();
             this.lblWelcome = new System.Windows.Forms.Label();
-            this.lstProfiles = new System.Windows.Forms.ListBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.pctCompare = new System.Windows.Forms.PictureBox();
+            this.btnUpload = new System.Windows.Forms.Button();
             this.grpLogin.SuspendLayout();
             this.pnlUser.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pctUser)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pctCompare)).BeginInit();
             this.SuspendLayout();
             // 
             // txtUsername
@@ -133,6 +136,24 @@ namespace FaceAI
             this.pnlUser.Visible = false;
             this.pnlUser.VisibleChanged += new System.EventHandler(this.pnlUser_VisibleChanged);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(10, 222);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(73, 15);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "Your Profiles";
+            // 
+            // lstProfiles
+            // 
+            this.lstProfiles.FormattingEnabled = true;
+            this.lstProfiles.ItemHeight = 15;
+            this.lstProfiles.Location = new System.Drawing.Point(10, 240);
+            this.lstProfiles.Name = "lstProfiles";
+            this.lstProfiles.Size = new System.Drawing.Size(180, 154);
+            this.lstProfiles.TabIndex = 10;
+            // 
             // btnNewProfile
             // 
             this.btnNewProfile.Location = new System.Drawing.Point(205, 32);
@@ -171,29 +192,31 @@ namespace FaceAI
             this.lblWelcome.TabIndex = 0;
             this.lblWelcome.Text = "Welcome <Firstname> <Surname>";
             // 
-            // lstProfiles
+            // pctCompare
             // 
-            this.lstProfiles.FormattingEnabled = true;
-            this.lstProfiles.ItemHeight = 15;
-            this.lstProfiles.Location = new System.Drawing.Point(10, 240);
-            this.lstProfiles.Name = "lstProfiles";
-            this.lstProfiles.Size = new System.Drawing.Size(180, 154);
-            this.lstProfiles.TabIndex = 10;
+            this.pctCompare.Location = new System.Drawing.Point(331, 12);
+            this.pctCompare.Name = "pctCompare";
+            this.pctCompare.Size = new System.Drawing.Size(302, 180);
+            this.pctCompare.TabIndex = 9;
+            this.pctCompare.TabStop = false;
             // 
-            // label3
+            // btnUpload
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(10, 222);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(73, 15);
-            this.label3.TabIndex = 8;
-            this.label3.Text = "Your Profiles";
+            this.btnUpload.Location = new System.Drawing.Point(331, 198);
+            this.btnUpload.Name = "btnUpload";
+            this.btnUpload.Size = new System.Drawing.Size(75, 23);
+            this.btnUpload.TabIndex = 10;
+            this.btnUpload.Text = "Upload";
+            this.btnUpload.UseVisualStyleBackColor = true;
+            this.btnUpload.Click += new System.EventHandler(this.btnUpload_Click);
             // 
             // HomePage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnUpload);
+            this.Controls.Add(this.pctCompare);
             this.Controls.Add(this.pnlUser);
             this.Controls.Add(this.grpLogin);
             this.Name = "HomePage";
@@ -204,6 +227,7 @@ namespace FaceAI
             this.pnlUser.ResumeLayout(false);
             this.pnlUser.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pctUser)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pctCompare)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -224,6 +248,8 @@ namespace FaceAI
         private System.Windows.Forms.Button btnNewProfile;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ListBox lstProfiles;
+        private System.Windows.Forms.PictureBox pctCompare;
+        private System.Windows.Forms.Button btnUpload;
     }
 }
 
