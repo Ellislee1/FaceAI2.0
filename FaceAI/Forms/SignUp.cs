@@ -41,7 +41,7 @@ namespace FaceAI.Forms
             parent.Show();
         }
 
-        private void btnSubmit_Click(object sender, EventArgs e)
+        private async void btnSubmit_Click(object sender, EventArgs e)
         {
             if (txtPassword.Text != txtRePassword.Text) // Check that both the passwords match if they don't throw Display message to user
             {
@@ -56,7 +56,7 @@ namespace FaceAI.Forms
                 // Try to save the user to the database
                 try
                 {
-                    string file_name = SaveImage();
+                    string file_name = await BlobCommonActions.SaveImageFile(PATH_TO_TEMP, (Bitmap)image.Clone());
                     database.NewUser(newUser, file_name);
                     MessageBox.Show("User has been added!", "Success!", MessageBoxButtons.OK);
                     // Resolve the signup by returning the user to the home screen.
@@ -95,27 +95,7 @@ namespace FaceAI.Forms
         }
 
 
-        private string SaveImage()
-        {
-                     // Generate a filename as a hash of the current datetime and some random number
-            DateTime foo = DateTime.Now;
-            Random rnd = new Random();
-            long val = rnd.Next(1111111, 779999999);
-            long unixTime = ((DateTimeOffset)foo).ToUnixTimeSeconds()+val;
-            string file_name = unixTime.ToString() + ".jpg";
-            // Path to temporary save location
-            string path = PATH_TO_TEMP + file_name;
-
-            // Save the bitmat as a jpg to the temporary llocation
-            ImageEncoder.Encoder(image, path);
-            
-
-            // Upload this to the blob
-            BlobHandler.UploadToStorage(path, file_name).GetAwaiter();
-
-            // Return the filename to access
-            return file_name;
-        }
+        
 
         // Image encoder function
        

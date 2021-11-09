@@ -16,14 +16,11 @@ namespace FaceAI.Azure.Database
     {
         static readonly string BLOB_KEY = "PdpA+IDe5XkRQ/1HYx8CtaPtbMUa+JkydAbrJbv8eKosVuouW6YFARct+QzyhpobHaCjhFzA8RtCA+fyi8tJfw==";
         static readonly string CONTAINER = "faces";
-        public static async Task UploadToStorage(string path, string fileName)
+        public static async Task<string> UploadToStorage(string path, string fileName)
         {
             // Location of the blob and the file to be stored on that blob
-            Uri blobUri = new Uri("https://" +
-                          "6221faces" +
-                          ".blob.core.windows.net/" +
-                          CONTAINER +
-                          "/" + fileName);
+            string url = "https://6221faces.blob.core.windows.net/faces/" + fileName;
+            Uri blobUri = new Uri(url);
 
             // Create credentials
             StorageSharedKeyCredential storageCredentials = new StorageSharedKeyCredential("6221faces", BLOB_KEY);
@@ -38,11 +35,10 @@ namespace FaceAI.Azure.Database
             await blobClient.UploadAsync(fileStream);
 
             fileStream.Close();
-
-            return;
+            return url;
         }
 
-        public static async Task DownloadToTemp(string path, string fileName)
+        public static async void DownloadToTemp(string path, string fileName)
         {
             string storageAccount_connectionString = "DefaultEndpointsProtocol=https;AccountName=6221faces;AccountKey=PdpA+IDe5XkRQ/1HYx8CtaPtbMUa+JkydAbrJbv8eKosVuouW6YFARct+QzyhpobHaCjhFzA8RtCA+fyi8tJfw==;EndpointSuffix=core.windows.net";
 
@@ -59,8 +55,6 @@ namespace FaceAI.Azure.Database
             await cloudBlockBlob.DownloadToStreamAsync(file);
 
             file.Close();
-
-            return;
         }
     }
 }

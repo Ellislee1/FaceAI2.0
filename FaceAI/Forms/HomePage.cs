@@ -1,4 +1,5 @@
-﻿using FaceAI.Azure.Database;
+﻿using FaceAI.Azure.AI;
+using FaceAI.Azure.Database;
 using FaceAI.Classes;
 using FaceAI.Exceptions;
 using FaceAI.Forms;
@@ -22,6 +23,7 @@ namespace FaceAI
         private Database dbs;
         private Bitmap userImage;
         private Bitmap compareImage;
+        private RecognitionActions recognitionModel;
 
         internal User CurrentUser { get => currentUser;}
 
@@ -30,6 +32,7 @@ namespace FaceAI
             this.PATH_TO_TEMP = tempPath;
             dbs = new Database();
             InitializeComponent();
+            recognitionModel = new RecognitionActions(PATH_TO_TEMP);
 
             pctCompare.SizeMode = PictureBoxSizeMode.StretchImage;
         }
@@ -92,7 +95,7 @@ namespace FaceAI
             string path = PATH_TO_TEMP + file;
             if (!File.Exists(path))
             {
-                await BlobHandler.DownloadToTemp(path, file);
+                BlobHandler.DownloadToTemp(path, file);
             }
             pctUser.SizeMode = PictureBoxSizeMode.CenterImage; // Setting the picture box type
 
@@ -127,7 +130,7 @@ namespace FaceAI
             this.Hide();
         }
 
-        private void btnUpload_Click(object sender, EventArgs e)
+        private async void btnUpload_Click(object sender, EventArgs e)
         {
             OpenFileDialog filedialog = new OpenFileDialog();
             filedialog.Filter = "JPEG files(*.jpg)| *.jpg |PNG files(*.png)| *.png|All files (*.*)|*.*";
@@ -136,6 +139,12 @@ namespace FaceAI
                 string filePath = filedialog.FileName;
                 compareImage = new Bitmap(filePath);
                 pctCompare.Image = compareImage;
+
+                bool result = await recognitionModel.ImageisFaceAsync(compareImage);
+                if (result)
+                    MessageBox.Show("Is a face");
+                else
+                    MessageBox.Show("No face");
             }
         }
     }
