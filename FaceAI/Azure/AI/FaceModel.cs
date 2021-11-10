@@ -35,8 +35,9 @@ namespace FaceAI.Azure.AI
         {
             // Detect faces from image URL. Since only recognizing, use the recognition model 1.
             // We use detection model 3 because we are not retrieving attributes.
-            MessageBox.Show(url);
+            
             IList <DetectedFace> detectedFaces = await this.client.Face.DetectWithUrlAsync(url, recognitionModel: RECOGNITION_MODEL4, detectionModel: DetectionModel.Detection03);
+
             return detectedFaces.Count > 0;
         }
     }

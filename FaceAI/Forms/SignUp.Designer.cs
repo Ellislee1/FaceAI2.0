@@ -43,21 +43,22 @@ namespace FaceAI.Forms
             this.txtSurname = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.btnSubmit = new System.Windows.Forms.Button();
+            this.btnOpen = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pctUser)).BeginInit();
             this.SuspendLayout();
             // 
             // pctUser
             // 
-            this.pctUser.Location = new System.Drawing.Point(53, 12);
+            this.pctUser.Location = new System.Drawing.Point(14, 12);
             this.pctUser.Name = "pctUser";
-            this.pctUser.Size = new System.Drawing.Size(180, 180);
+            this.pctUser.Size = new System.Drawing.Size(261, 144);
             this.pctUser.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pctUser.TabIndex = 0;
             this.pctUser.TabStop = false;
             // 
             // btnTakePicture
             // 
-            this.btnTakePicture.Location = new System.Drawing.Point(93, 198);
+            this.btnTakePicture.Location = new System.Drawing.Point(49, 173);
             this.btnTakePicture.Name = "btnTakePicture";
             this.btnTakePicture.Size = new System.Drawing.Size(93, 23);
             this.btnTakePicture.TabIndex = 1;
@@ -67,7 +68,7 @@ namespace FaceAI.Forms
             // 
             // btnRetake
             // 
-            this.btnRetake.Location = new System.Drawing.Point(104, 198);
+            this.btnRetake.Location = new System.Drawing.Point(60, 173);
             this.btnRetake.Name = "btnRetake";
             this.btnRetake.Size = new System.Drawing.Size(71, 23);
             this.btnRetake.TabIndex = 2;
@@ -171,11 +172,22 @@ namespace FaceAI.Forms
             this.btnSubmit.UseVisualStyleBackColor = true;
             this.btnSubmit.Click += new System.EventHandler(this.btnSubmit_Click);
             // 
+            // btnOpen
+            // 
+            this.btnOpen.Location = new System.Drawing.Point(157, 173);
+            this.btnOpen.Name = "btnOpen";
+            this.btnOpen.Size = new System.Drawing.Size(75, 23);
+            this.btnOpen.TabIndex = 14;
+            this.btnOpen.Text = "Open";
+            this.btnOpen.UseVisualStyleBackColor = true;
+            this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
+            // 
             // SignUp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(287, 468);
+            this.Controls.Add(this.btnOpen);
             this.Controls.Add(this.btnSubmit);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.txtSurname);
@@ -216,5 +228,6 @@ namespace FaceAI.Forms
         private System.Windows.Forms.TextBox txtSurname;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button btnSubmit;
+        private System.Windows.Forms.Button btnOpen;
     }
 }

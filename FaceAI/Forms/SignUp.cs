@@ -94,10 +94,24 @@ namespace FaceAI.Forms
             btnRetake.Visible = false;
         }
 
+        private void btnOpen_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog filedialog = new OpenFileDialog();
+            filedialog.Filter = "JPEG files(*.jpg)| *.jpg |PNG files(*.png)| *.png|All files (*.*)|*.*";
+            if (filedialog.ShowDialog() == DialogResult.OK)
+            {
+                string filePath = filedialog.FileName;
+                pctUser.SizeMode = PictureBoxSizeMode.StretchImage;
 
-        
+                image = new Bitmap(filePath);
+                pctUser.Image = image;
+            }
+        }
+
+
+
 
         // Image encoder function
-       
+
     }
 }
