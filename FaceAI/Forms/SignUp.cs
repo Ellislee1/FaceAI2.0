@@ -56,8 +56,8 @@ namespace FaceAI.Forms
                 // Try to save the user to the database
                 try
                 {
-                    string file_name = await BlobCommonActions.SaveImageFile(PATH_TO_TEMP, (Bitmap)image.Clone());
-                    database.NewUser(newUser, file_name);
+                    BlobImage blobImage = await BlobCommonActions.SaveImageAsync(PATH_TO_TEMP, (Bitmap)image.Clone());
+                    database.NewUser(newUser, blobImage.Filename);
                     MessageBox.Show("User has been added!", "Success!", MessageBoxButtons.OK);
                     // Resolve the signup by returning the user to the home screen.
                     parent.Show();

@@ -24,6 +24,7 @@ namespace FaceAI
         private Bitmap userImage;
         private Bitmap compareImage;
         private RecognitionActions recognitionModel;
+        private List<string> tempFaces;
 
         internal User CurrentUser { get => currentUser;}
 
@@ -35,6 +36,7 @@ namespace FaceAI
             recognitionModel = new RecognitionActions(PATH_TO_TEMP);
 
             pctCompare.SizeMode = PictureBoxSizeMode.StretchImage;
+            tempFaces = new List<string>();
         }
 
         private void btnRegister_Click(object sender, EventArgs e)

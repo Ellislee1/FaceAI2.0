@@ -22,8 +22,12 @@ namespace FaceAI.Azure.AI
 
         public async Task<bool> ImageisFaceAsync(Bitmap image)
         {
-            string url = await BlobCommonActions.SaveImageAsync(tempPath, image);
-            return await model.ImageisFaceAsync(url);
+            BlobImage blobImage = await BlobCommonActions.SaveImageAsync(tempPath, image);
+            bool isFace =  await model.ImageisFaceAsync(blobImage.Url);
+            // Delete the image for privacy
+            BlobCommonActions.DeleteImage(blobImage);
+
+            return isFace;
         }
     }
 }

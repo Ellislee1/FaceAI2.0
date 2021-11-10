@@ -16,7 +16,9 @@ namespace FaceAI.Azure.Database
     {
         static readonly string BLOB_KEY = "PdpA+IDe5XkRQ/1HYx8CtaPtbMUa+JkydAbrJbv8eKosVuouW6YFARct+QzyhpobHaCjhFzA8RtCA+fyi8tJfw==";
         static readonly string CONTAINER = "faces";
-        public static async Task<string> UploadToStorage(string path, string fileName)
+
+        static readonly string CONNECTION = ConfigurationManager.AppSettings.Get("BLOB_ENDPOINT");
+        public static async Task<BlobImage> UploadToStorage(string path, string fileName)
         {
             // Location of the blob and the file to be stored on that blob
             string url = "https://6221faces.blob.core.windows.net/faces/" + fileName;
@@ -35,7 +37,9 @@ namespace FaceAI.Azure.Database
             await blobClient.UploadAsync(fileStream);
 
             fileStream.Close();
-            return url;
+
+            BlobImage image = new BlobImage(fileName, url);
+            return image;
         }
 
         public static async void DownloadToTemp(string path, string fileName)
@@ -55,6 +59,16 @@ namespace FaceAI.Azure.Database
             await cloudBlockBlob.DownloadToStreamAsync(file);
 
             file.Close();
+        }
+
+        public static async void DeleteItem(string fileName)
+        {
+            CloudStorageAccount storage = CloudStorageAccount.Parse(CONNECTION);
+            CloudBlobClient blobClient = storage.CreateCloudBlobClient();
+            CloudBlobContainer container = blobClient.GetContainerReference(CONTAINER);
+
+            var blob = container.GetBlockBlobReference(fileName);
+            await blob.DeleteIfExistsAsync();
         }
     }
 }
