@@ -1,4 +1,5 @@
-﻿using FaceAI.Azure.Database;
+﻿using FaceAI.Azure.AI;
+using FaceAI.Azure.Database;
 using FaceAI.Classes;
 using FaceAI.Exceptions;
 using FaceAI.Forms;
@@ -21,6 +22,9 @@ namespace FaceAI
         private User currentUser;
         private Database dbs;
         private Bitmap userImage;
+        private Bitmap compareImage;
+        private RecognitionActions recognitionModel;
+        private List<string> tempFaces;
 
         internal User CurrentUser { get => currentUser;}
 
@@ -29,6 +33,10 @@ namespace FaceAI
             this.PATH_TO_TEMP = tempPath;
             dbs = new Database();
             InitializeComponent();
+            recognitionModel = new RecognitionActions(PATH_TO_TEMP);
+
+            pctCompare.SizeMode = PictureBoxSizeMode.StretchImage;
+            tempFaces = new List<string>();
         }
 
         private void btnRegister_Click(object sender, EventArgs e)
@@ -47,7 +55,8 @@ namespace FaceAI
             {
                 userImage = null;
                 currentUser = null;
-                pctUser.Image.Dispose();
+                if (pctUser.Image != null) { pctUser.Image.Dispose(); }
+                
 
                 Directory.Delete(PATH_TO_TEMP, true);
             }
@@ -88,7 +97,7 @@ namespace FaceAI
             string path = PATH_TO_TEMP + file;
             if (!File.Exists(path))
             {
-                await BlobHandler.DownloadToTemp(path, file);
+                BlobHandler.DownloadToTemp(path, file);
             }
             pctUser.SizeMode = PictureBoxSizeMode.CenterImage; // Setting the picture box type
 
@@ -121,6 +130,40 @@ namespace FaceAI
             Form profile = new NewProfile(this);
             profile.Show();
             this.Hide();
+        }
+
+        private async void btnUpload_Click(object sender, EventArgs e)
+        {
+            lstSimilarFaces.Items.Clear();
+            OpenFileDialog filedialog = new OpenFileDialog();
+            filedialog.Filter = "JPEG files(*.jpg)| *.jpg |PNG files(*.png)| *.png|All files (*.*)|*.*";
+            if (filedialog.ShowDialog() == DialogResult.OK)
+            {
+                pbarProgress.Value = 0;
+                pbarProgress.Show();
+                string filePath = filedialog.FileName;
+                compareImage = new Bitmap(filePath);
+                pctCompare.Image = compareImage;
+
+                bool result = await recognitionModel.ImageisFaceAsync(compareImage);
+                if (!result)
+                {
+                    pbarProgress.Value = 100;
+                    MessageBox.Show("No face detected");
+                }
+
+                pbarProgress.Value = 10;
+                List<FaceSimilarity> results = await recognitionModel.FindSimilar(compareImage, pbarProgress);
+
+                foreach(FaceSimilarity face in results)
+                {
+                    if(face.Similarity > 0)
+                    {
+                        lstSimilarFaces.Items.Add($"{face.Filename}\t{face.Similarity}");
+                    }
+                }
+                pbarProgress.Value = 100;
+            }
         }
     }
 }

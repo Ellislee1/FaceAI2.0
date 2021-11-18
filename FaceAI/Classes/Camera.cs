@@ -1,12 +1,7 @@
 ﻿using AForge.Video;
 using AForge.Video.DirectShow;
 using FaceAI.Exceptions;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace FaceAI.Classes
@@ -42,7 +37,9 @@ namespace FaceAI.Classes
                 filterInfoCollection = new FilterInfoCollection(FilterCategory.VideoInputDevice);
                 this.captureDevice = new VideoCaptureDevice(filterInfoCollection[0].MonikerString);
             }
+           
         }
+ 
 
         public void Run()
         {
