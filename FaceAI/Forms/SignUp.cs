@@ -41,7 +41,7 @@ namespace FaceAI.Forms
             parent.Show();
         }
 
-        private void btnSubmit_Click(object sender, EventArgs e)
+        private async void btnSubmit_Click(object sender, EventArgs e)
         {
             if (txtPassword.Text != txtRePassword.Text) // Check that both the passwords match if they don't throw Display message to user
             {
@@ -56,8 +56,8 @@ namespace FaceAI.Forms
                 // Try to save the user to the database
                 try
                 {
-                    string file_name = SaveImage();
-                    database.NewUser(newUser, file_name);
+                    BlobImage blobImage = await BlobCommonActions.SaveImageAsync(PATH_TO_TEMP, (Bitmap)image.Clone());
+                    database.NewUser(newUser, blobImage.Filename);
                     MessageBox.Show("User has been added!", "Success!", MessageBoxButtons.OK);
                     // Resolve the signup by returning the user to the home screen.
                     parent.Show();
@@ -94,30 +94,24 @@ namespace FaceAI.Forms
             btnRetake.Visible = false;
         }
 
-
-        private string SaveImage()
+        private void btnOpen_Click(object sender, EventArgs e)
         {
-                     // Generate a filename as a hash of the current datetime and some random number
-            DateTime foo = DateTime.Now;
-            Random rnd = new Random();
-            long val = rnd.Next(1111111, 779999999);
-            long unixTime = ((DateTimeOffset)foo).ToUnixTimeSeconds()+val;
-            string file_name = unixTime.ToString() + ".jpg";
-            // Path to temporary save location
-            string path = PATH_TO_TEMP + file_name;
+            OpenFileDialog filedialog = new OpenFileDialog();
+            filedialog.Filter = "JPEG files(*.jpg)| *.jpg |PNG files(*.png)| *.png|All files (*.*)|*.*";
+            if (filedialog.ShowDialog() == DialogResult.OK)
+            {
+                string filePath = filedialog.FileName;
+                pctUser.SizeMode = PictureBoxSizeMode.StretchImage;
 
-            // Save the bitmat as a jpg to the temporary llocation
-            ImageEncoder.Encoder(image, path);
-            
-
-            // Upload this to the blob
-            BlobHandler.UploadToStorage(path, file_name).GetAwaiter();
-
-            // Return the filename to access
-            return file_name;
+                image = new Bitmap(filePath);
+                pctUser.Image = image;
+            }
         }
 
+
+
+
         // Image encoder function
-       
+
     }
 }
