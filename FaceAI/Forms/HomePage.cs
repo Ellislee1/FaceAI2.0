@@ -35,7 +35,7 @@ namespace FaceAI
             InitializeComponent();
             recognitionModel = new RecognitionActions(PATH_TO_TEMP);
 
-            pctCompare.SizeMode = PictureBoxSizeMode.StretchImage;
+            pctCompare.SizeMode = PictureBoxSizeMode.Zoom;
             tempFaces = new List<string>();
         }
 
@@ -97,10 +97,10 @@ namespace FaceAI
             string path = PATH_TO_TEMP + file;
             if (!File.Exists(path))
             {
-                BlobHandler.DownloadToTemp(path, file);
+                await BlobHandler.DownloadToTemp(path, file);
             }
-            pctUser.SizeMode = PictureBoxSizeMode.CenterImage; // Setting the picture box type
-
+            pctUser.SizeMode = PictureBoxSizeMode.Zoom; // Setting the picture box type
+            MessageBox.Show(path);
             userImage = new Bitmap(path);
 
             pctUser.Image = new Bitmap(userImage, new Size(userImage.Width / 4, userImage.Height / 4));
@@ -117,11 +117,6 @@ namespace FaceAI
             if (pnlUser.Visible)
             {
                 lblWelcome.Text = String.Format("Welcome {0} {1}", currentUser.First_name, currentUser.Surname);
-            } else
-            {
-                lblWelcome.Text = String.Format("ERROR");
-                userImage = null;
-                pctUser.Image.Dispose();
             }
         }
 
