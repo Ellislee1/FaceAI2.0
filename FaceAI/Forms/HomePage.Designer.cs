@@ -46,6 +46,7 @@ namespace FaceAI
             this.pctCompare = new System.Windows.Forms.PictureBox();
             this.btnUpload = new System.Windows.Forms.Button();
             this.lstSimilarFaces = new System.Windows.Forms.ListBox();
+            this.pbarProgress = new System.Windows.Forms.ProgressBar();
             this.grpLogin.SuspendLayout();
             this.pnlUser.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pctUser)).BeginInit();
@@ -220,11 +221,19 @@ namespace FaceAI
             this.lstSimilarFaces.Size = new System.Drawing.Size(160, 184);
             this.lstSimilarFaces.TabIndex = 11;
             // 
+            // pbarProgress
+            // 
+            this.pbarProgress.Location = new System.Drawing.Point(412, 198);
+            this.pbarProgress.Name = "pbarProgress";
+            this.pbarProgress.Size = new System.Drawing.Size(376, 23);
+            this.pbarProgress.TabIndex = 12;
+            // 
             // HomePage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.pbarProgress);
             this.Controls.Add(this.lstSimilarFaces);
             this.Controls.Add(this.btnUpload);
             this.Controls.Add(this.pctCompare);
@@ -262,6 +271,7 @@ namespace FaceAI
         private System.Windows.Forms.PictureBox pctCompare;
         private System.Windows.Forms.Button btnUpload;
         private System.Windows.Forms.ListBox lstSimilarFaces;
+        private System.Windows.Forms.ProgressBar pbarProgress;
     }
 }
 

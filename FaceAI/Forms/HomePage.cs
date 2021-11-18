@@ -134,10 +134,13 @@ namespace FaceAI
 
         private async void btnUpload_Click(object sender, EventArgs e)
         {
+            lstSimilarFaces.Items.Clear();
             OpenFileDialog filedialog = new OpenFileDialog();
             filedialog.Filter = "JPEG files(*.jpg)| *.jpg |PNG files(*.png)| *.png|All files (*.*)|*.*";
             if (filedialog.ShowDialog() == DialogResult.OK)
             {
+                pbarProgress.Value = 0;
+                pbarProgress.Show();
                 string filePath = filedialog.FileName;
                 compareImage = new Bitmap(filePath);
                 pctCompare.Image = compareImage;
@@ -145,10 +148,12 @@ namespace FaceAI
                 bool result = await recognitionModel.ImageisFaceAsync(compareImage);
                 if (!result)
                 {
+                    pbarProgress.Value = 100;
                     MessageBox.Show("No face detected");
                 }
 
-                List<FaceSimilarity> results = await recognitionModel.FindSimilar(compareImage);
+                pbarProgress.Value = 10;
+                List<FaceSimilarity> results = await recognitionModel.FindSimilar(compareImage, pbarProgress);
 
                 foreach(FaceSimilarity face in results)
                 {
@@ -157,6 +162,7 @@ namespace FaceAI
                         lstSimilarFaces.Items.Add($"{face.Filename}\t{face.Similarity}");
                     }
                 }
+                pbarProgress.Value = 100;
             }
         }
     }

@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace FaceAI.Azure.AI
 {
@@ -41,48 +42,69 @@ namespace FaceAI.Azure.AI
             return isFace;
         }
 
-        public async Task<List<FaceSimilarity>> FindSimilar(Bitmap image)
+        public async Task<List<FaceSimilarity>> FindSimilar(Bitmap image, ProgressBar pbar)
         {
             BlobImage blobImage = await BlobCommonActions.SaveImageAsync(tempPath, image);
-            bool isFace = await ImageisFaceAsync(blobImage);
-            // If no face is detected then throw this exception
-            if (!isFace)
+            try
             {
-                throw new NoFaceException();
-            }
-
-            List<string> targetImageFileNames = await BlobCommonActions.GetFilesAsync();
-            IList<FaceSimilarity> targetFaces = new List<FaceSimilarity>();
-            foreach (string targetImageFileName in targetImageFileNames)
-            {
-                string url = "https://6221faces.blob.core.windows.net/faces/" + targetImageFileName;
-                // Detect faces from target image url.
-                var faces = await model.DetectFaceRecognize(url);
-                // Add detected faceId to list of values about this face.
-                foreach(var face in faces)
+                bool isFace = await ImageisFaceAsync(blobImage);
+                // If no face is detected then throw this exception
+                if (!isFace)
                 {
-                    FaceSimilarity faceVal = new FaceSimilarity(targetImageFileName, url, 0, face.FaceId.Value, face.FaceRectangle);
-                    targetFaces.Add(faceVal);
+                    pbar.Value = 100;
+                    throw new NoFaceException();
                 }
+                pbar.Value += 5;
 
-                IList<DetectedFace> detectedFace = await model.DetectFaceRecognize(blobImage.Url);
-
-                IList<SimilarFace> results = await model.FindSimilar(detectedFace[0], targetFaces);
-
-                foreach(SimilarFace face in results)
+                List<string> targetImageFileNames = await BlobCommonActions.GetFilesAsync();
+                pbar.Value += 15;
+                IList<FaceSimilarity> targetFaces = new List<FaceSimilarity>();
+                int length = targetImageFileNames.Count;
+                int val = pbar.Value-7;
+                int itr = val/length;
+                foreach (string targetImageFileName in targetImageFileNames)
                 {
-                    foreach (FaceSimilarity aFace in targetFaces.Where(x=>
+                    string url = "https://6221faces.blob.core.windows.net/faces/" + targetImageFileName;
+                    // Detect faces from target image url.
+                    var faces = await model.DetectFaceRecognize(url);
+                    // Add detected faceId to list of values about this face.
+                    foreach (var face in faces)
                     {
-                        return x.ImageGuid == face.FaceId;
-                    }))
-                    {
-                        aFace.Similarity = face.Confidence >= this.threashold ? face.Confidence : 0;
+                        FaceSimilarity faceVal = new FaceSimilarity(targetImageFileName, url, 0, face.FaceId.Value, face.FaceRectangle);
+                        targetFaces.Add(faceVal);
+                        pbar.Value += (int)(0.25 * itr);
                     }
-                }
-            }
 
-            BlobCommonActions.DeleteImage(blobImage);
-            return (List<FaceSimilarity>)targetFaces;
+                    IList<DetectedFace> detectedFace = await model.DetectFaceRecognize(blobImage.Url);
+
+                    IList<SimilarFace> results = await model.FindSimilar(detectedFace[0], targetFaces);
+
+                    foreach (SimilarFace face in results)
+                    {
+                        foreach (FaceSimilarity aFace in targetFaces.Where(x =>
+                        {
+                            return (x.ImageGuid != detectedFace[0].FaceId) && (x.ImageGuid == face.FaceId);
+                        }))
+                        {
+                            aFace.Similarity = face.Confidence >= this.threashold ? face.Confidence : 0;
+                            pbar.Value += (int)(0.1 * itr);
+                        }
+                        pbar.Value += (int)(0.15 * itr);
+                    }
+
+                    pbar.Value += (int)(0.5 * itr);
+                }
+                return (List<FaceSimilarity>)targetFaces;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                BlobCommonActions.DeleteImage(blobImage);
+                pbar.Value += 5;
+            }
         }
     }
 }
