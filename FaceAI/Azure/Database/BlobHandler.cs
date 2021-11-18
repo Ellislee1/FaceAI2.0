@@ -1,14 +1,15 @@
-﻿using System;  
-using Azure.Storage.Blobs;  
-using Azure.Storage.Blobs.Models;  
-using System.IO;  
-using System.Threading.Tasks;
-using System.Configuration;
+﻿
 using Azure.Storage;
-using Microsoft.WindowsAzure.Storage.Blob;
-using System.Drawing;
+using Azure.Storage.Blobs;
 using FaceAI.Classes;
 using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace FaceAI.Azure.Database
 {
@@ -69,6 +70,35 @@ namespace FaceAI.Azure.Database
 
             var blob = container.GetBlockBlobReference(fileName);
             await blob.DeleteIfExistsAsync();
+        }
+
+        public static async Task<List<string>> GetFilesAsync()
+        {
+            CloudStorageAccount storage = CloudStorageAccount.Parse(CONNECTION);
+            CloudBlobClient blobClient = storage.CreateCloudBlobClient();
+            CloudBlobContainer container = blobClient.GetContainerReference(CONTAINER);
+            BlobContinuationToken blobContinuationToken = null;
+
+            var list = await container.ListBlobsSegmentedAsync(
+                prefix              : null,
+                useFlatBlobListing  : true,
+                blobListingDetails  : BlobListingDetails.None,
+                maxResults          : null,
+                currentToken        : blobContinuationToken,
+                options             : null,
+                operationContext    : null
+                );
+
+            blobContinuationToken = list.ContinuationToken;
+            List<string> files = new List<string>();
+
+            foreach (IListBlobItem blob in list.Results)
+            {
+                var blobFileName = blob.Uri.Segments.Last();
+                files.Add(blobFileName);
+            }
+
+            return files;
         }
     }
 }

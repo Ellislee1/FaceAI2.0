@@ -143,10 +143,20 @@ namespace FaceAI
                 pctCompare.Image = compareImage;
 
                 bool result = await recognitionModel.ImageisFaceAsync(compareImage);
-                if (result)
-                    MessageBox.Show("Is a face");
-                else
-                    MessageBox.Show("No face");
+                if (!result)
+                {
+                    MessageBox.Show("No face detected");
+                }
+
+                List<FaceSimilarity> results = await recognitionModel.FindSimilar(compareImage);
+
+                foreach(FaceSimilarity face in results)
+                {
+                    if(face.Similarity > 0)
+                    {
+                        lstSimilarFaces.Items.Add($"{face.Filename}\t{face.Similarity}");
+                    }
+                }
             }
         }
     }

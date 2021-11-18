@@ -45,6 +45,7 @@ namespace FaceAI
             this.lblWelcome = new System.Windows.Forms.Label();
             this.pctCompare = new System.Windows.Forms.PictureBox();
             this.btnUpload = new System.Windows.Forms.Button();
+            this.lstSimilarFaces = new System.Windows.Forms.ListBox();
             this.grpLogin.SuspendLayout();
             this.pnlUser.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pctUser)).BeginInit();
@@ -196,7 +197,7 @@ namespace FaceAI
             // 
             this.pctCompare.Location = new System.Drawing.Point(331, 12);
             this.pctCompare.Name = "pctCompare";
-            this.pctCompare.Size = new System.Drawing.Size(302, 180);
+            this.pctCompare.Size = new System.Drawing.Size(291, 180);
             this.pctCompare.TabIndex = 9;
             this.pctCompare.TabStop = false;
             // 
@@ -210,11 +211,21 @@ namespace FaceAI
             this.btnUpload.UseVisualStyleBackColor = true;
             this.btnUpload.Click += new System.EventHandler(this.btnUpload_Click);
             // 
+            // lstSimilarFaces
+            // 
+            this.lstSimilarFaces.FormattingEnabled = true;
+            this.lstSimilarFaces.ItemHeight = 15;
+            this.lstSimilarFaces.Location = new System.Drawing.Point(628, 12);
+            this.lstSimilarFaces.Name = "lstSimilarFaces";
+            this.lstSimilarFaces.Size = new System.Drawing.Size(160, 184);
+            this.lstSimilarFaces.TabIndex = 11;
+            // 
             // HomePage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.lstSimilarFaces);
             this.Controls.Add(this.btnUpload);
             this.Controls.Add(this.pctCompare);
             this.Controls.Add(this.pnlUser);
@@ -250,6 +261,7 @@ namespace FaceAI
         private System.Windows.Forms.ListBox lstProfiles;
         private System.Windows.Forms.PictureBox pctCompare;
         private System.Windows.Forms.Button btnUpload;
+        private System.Windows.Forms.ListBox lstSimilarFaces;
     }
 }
 

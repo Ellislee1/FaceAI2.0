@@ -36,5 +36,9 @@ namespace FaceAI.Classes
         {
             BlobHandler.DeleteItem(image.Filename);
         }
+
+        public static async Task<List<string>> GetFilesAsync() {
+            return await BlobHandler.GetFilesAsync();
+        }
     }
 }
