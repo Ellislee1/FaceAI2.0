@@ -191,7 +191,7 @@ namespace FaceAI.Azure.Database
         {
             User thisUser = null;
 
-            string query = String.Format("SELECT registered.username, first_name, surname, faceID FROM faceLinks, registered WHERE faceLinks.faceID = '{0}'", filename);
+            string query = String.Format("SELECT registered.username, first_name, surname, faceID FROM facelinks INNER JOIN registered ON facelinks.username = registered.username WHERE faceLinks.faceID = '{0}'", filename);
 
             using (SqlConnection con = new SqlConnection(builder.ConnectionString))
             {

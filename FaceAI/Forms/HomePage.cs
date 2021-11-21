@@ -102,7 +102,6 @@ namespace FaceAI
                 await BlobHandler.DownloadToTemp(path, file);
             }
             pctUser.SizeMode = PictureBoxSizeMode.Zoom; // Setting the picture box type
-            MessageBox.Show(path);
             userImage = new Bitmap(path);
 
             pctUser.Image = new Bitmap(userImage, new Size(userImage.Width / 4, userImage.Height / 4));
@@ -159,8 +158,19 @@ namespace FaceAI
                         User matching = dbs.FindUser(face.Filename);
                         if(matching != null)
                         {
-                            foundUsers.Add(matching);
-                            lstSimilarFaces.Items.Add($"{matching.First_name}\t{matching.Surname}");
+                            // If the user already exists just add an image
+                            if (foundUsers.Any(item => item.Username == matching.Username))
+                            {
+                                foreach (User usr in foundUsers.Where(item => item.Username == matching.Username))
+                                {
+                                    usr.Images.Add(matching.Images[0]);
+                                }
+                            }
+                            else
+                            {
+                                foundUsers.Add(matching);
+                                lstSimilarFaces.Items.Add($"{matching.First_name}\t{matching.Surname}\t{matching.Images[0]}");
+                            }
                         }
                     }
                 }
