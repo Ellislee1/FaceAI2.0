@@ -58,7 +58,7 @@ namespace FaceAI
                 userImage = null;
                 currentUser = null;
                 if (pctUser.Image != null) { pctUser.Image.Dispose(); }
-                
+                foundUsers = null;
 
                 Directory.Delete(PATH_TO_TEMP, true);
             }
@@ -78,7 +78,7 @@ namespace FaceAI
             {
                 currentUser = dbs.GetUser(username, password);
                 currentUser.Images = dbs.GetImageFiles(username);
-                setFace(currentUser.Images[0]);
+                setFace(currentUser.Images[0], pctUser);
 
                 grpLogin.Visible = false;
                 pnlUser.Visible = true;
@@ -94,17 +94,15 @@ namespace FaceAI
             }
         }
 
-        private async void setFace(string file)
+        private async void setFace(string file, PictureBox picBox)
         {
             string path = PATH_TO_TEMP + file;
             if (!File.Exists(path))
             {
                 await BlobHandler.DownloadToTemp(path, file);
             }
-            pctUser.SizeMode = PictureBoxSizeMode.Zoom; // Setting the picture box type
-            userImage = new Bitmap(path);
-
-            pctUser.Image = new Bitmap(userImage, new Size(userImage.Width / 4, userImage.Height / 4));
+            picBox.SizeMode = PictureBoxSizeMode.Zoom; // Setting the picture box type
+            picBox.Image = new Bitmap(path);
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
@@ -176,6 +174,16 @@ namespace FaceAI
                 }
                 pbarProgress.Value = 100;
             }
+        }
+
+        private void lstSimilarFaces_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int index = lstSimilarFaces.SelectedIndex;
+            User selected = foundUsers[index];
+
+            lblSelectedUser.Text = String.Format("{0} {1}", selected.First_name, selected.Surname);
+
+            setFace(selected.Images[0], pctSelected);
         }
     }
 }
