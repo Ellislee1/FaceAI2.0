@@ -47,10 +47,15 @@ namespace FaceAI
             this.btnUpload = new System.Windows.Forms.Button();
             this.lstSimilarFaces = new System.Windows.Forms.ListBox();
             this.pbarProgress = new System.Windows.Forms.ProgressBar();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.pctSelected = new System.Windows.Forms.PictureBox();
+            this.lblSelectedUser = new System.Windows.Forms.Label();
             this.grpLogin.SuspendLayout();
             this.pnlUser.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pctUser)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pctCompare)).BeginInit();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pctSelected)).BeginInit();
             this.SuspendLayout();
             // 
             // txtUsername
@@ -133,7 +138,7 @@ namespace FaceAI
             this.pnlUser.Controls.Add(this.lblWelcome);
             this.pnlUser.Location = new System.Drawing.Point(12, 12);
             this.pnlUser.Name = "pnlUser";
-            this.pnlUser.Size = new System.Drawing.Size(304, 426);
+            this.pnlUser.Size = new System.Drawing.Size(277, 426);
             this.pnlUser.TabIndex = 7;
             this.pnlUser.Visible = false;
             this.pnlUser.VisibleChanged += new System.EventHandler(this.pnlUser_VisibleChanged);
@@ -158,7 +163,7 @@ namespace FaceAI
             // 
             // btnNewProfile
             // 
-            this.btnNewProfile.Location = new System.Drawing.Point(205, 32);
+            this.btnNewProfile.Location = new System.Drawing.Point(115, 400);
             this.btnNewProfile.Name = "btnNewProfile";
             this.btnNewProfile.Size = new System.Drawing.Size(75, 23);
             this.btnNewProfile.TabIndex = 9;
@@ -196,15 +201,15 @@ namespace FaceAI
             // 
             // pctCompare
             // 
-            this.pctCompare.Location = new System.Drawing.Point(331, 12);
+            this.pctCompare.Location = new System.Drawing.Point(305, 12);
             this.pctCompare.Name = "pctCompare";
-            this.pctCompare.Size = new System.Drawing.Size(291, 180);
+            this.pctCompare.Size = new System.Drawing.Size(317, 180);
             this.pctCompare.TabIndex = 9;
             this.pctCompare.TabStop = false;
             // 
             // btnUpload
             // 
-            this.btnUpload.Location = new System.Drawing.Point(331, 198);
+            this.btnUpload.Location = new System.Drawing.Point(305, 198);
             this.btnUpload.Name = "btnUpload";
             this.btnUpload.Size = new System.Drawing.Size(75, 23);
             this.btnUpload.TabIndex = 10;
@@ -220,19 +225,50 @@ namespace FaceAI
             this.lstSimilarFaces.Name = "lstSimilarFaces";
             this.lstSimilarFaces.Size = new System.Drawing.Size(160, 184);
             this.lstSimilarFaces.TabIndex = 11;
+            this.lstSimilarFaces.SelectedIndexChanged += new System.EventHandler(this.lstSimilarFaces_SelectedIndexChanged);
             // 
             // pbarProgress
             // 
-            this.pbarProgress.Location = new System.Drawing.Point(412, 198);
+            this.pbarProgress.Location = new System.Drawing.Point(386, 198);
             this.pbarProgress.Name = "pbarProgress";
-            this.pbarProgress.Size = new System.Drawing.Size(376, 23);
+            this.pbarProgress.Size = new System.Drawing.Size(402, 23);
             this.pbarProgress.TabIndex = 12;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.lblSelectedUser);
+            this.groupBox1.Controls.Add(this.pctSelected);
+            this.groupBox1.Location = new System.Drawing.Point(305, 234);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(483, 204);
+            this.groupBox1.TabIndex = 13;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Selected User";
+            // 
+            // pctSelected
+            // 
+            this.pctSelected.Location = new System.Drawing.Point(6, 44);
+            this.pctSelected.Name = "pctSelected";
+            this.pctSelected.Size = new System.Drawing.Size(155, 154);
+            this.pctSelected.TabIndex = 11;
+            this.pctSelected.TabStop = false;
+            // 
+            // lblSelectedUser
+            // 
+            this.lblSelectedUser.AutoSize = true;
+            this.lblSelectedUser.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblSelectedUser.Location = new System.Drawing.Point(6, 19);
+            this.lblSelectedUser.Name = "lblSelectedUser";
+            this.lblSelectedUser.Size = new System.Drawing.Size(155, 17);
+            this.lblSelectedUser.TabIndex = 12;
+            this.lblSelectedUser.Text = "<Firstname> <Surname>";
             // 
             // HomePage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.pbarProgress);
             this.Controls.Add(this.lstSimilarFaces);
             this.Controls.Add(this.btnUpload);
@@ -248,6 +284,9 @@ namespace FaceAI
             this.pnlUser.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pctUser)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pctCompare)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pctSelected)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -272,6 +311,9 @@ namespace FaceAI
         private System.Windows.Forms.Button btnUpload;
         private System.Windows.Forms.ListBox lstSimilarFaces;
         private System.Windows.Forms.ProgressBar pbarProgress;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label lblSelectedUser;
+        private System.Windows.Forms.PictureBox pctSelected;
     }
 }
 

@@ -101,7 +101,7 @@ namespace FaceAI.Forms
             if (filedialog.ShowDialog() == DialogResult.OK)
             {
                 string filePath = filedialog.FileName;
-                pctUser.SizeMode = PictureBoxSizeMode.StretchImage;
+                pctUser.SizeMode = PictureBoxSizeMode.Zoom;
 
                 image = new Bitmap(filePath);
                 pctUser.Image = image;

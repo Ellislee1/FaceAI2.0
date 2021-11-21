@@ -25,6 +25,7 @@ namespace FaceAI
         private Bitmap compareImage;
         private RecognitionActions recognitionModel;
         private List<string> tempFaces;
+        private List<User> foundUsers;
 
         internal User CurrentUser { get => currentUser;}
 
@@ -35,8 +36,9 @@ namespace FaceAI
             InitializeComponent();
             recognitionModel = new RecognitionActions(PATH_TO_TEMP);
 
-            pctCompare.SizeMode = PictureBoxSizeMode.StretchImage;
+            pctCompare.SizeMode = PictureBoxSizeMode.Zoom;
             tempFaces = new List<string>();
+            foundUsers = new List<User>();
         }
 
         private void btnRegister_Click(object sender, EventArgs e)
@@ -56,7 +58,7 @@ namespace FaceAI
                 userImage = null;
                 currentUser = null;
                 if (pctUser.Image != null) { pctUser.Image.Dispose(); }
-                
+                foundUsers = null;
 
                 Directory.Delete(PATH_TO_TEMP, true);
             }
@@ -76,7 +78,7 @@ namespace FaceAI
             {
                 currentUser = dbs.GetUser(username, password);
                 currentUser.Images = dbs.GetImageFiles(username);
-                setFace(currentUser.Images[0]);
+                setFace(currentUser.Images[0], pctUser);
 
                 grpLogin.Visible = false;
                 pnlUser.Visible = true;
@@ -92,18 +94,15 @@ namespace FaceAI
             }
         }
 
-        private async void setFace(string file)
+        private async void setFace(string file, PictureBox picBox)
         {
             string path = PATH_TO_TEMP + file;
             if (!File.Exists(path))
             {
-                BlobHandler.DownloadToTemp(path, file);
+                await BlobHandler.DownloadToTemp(path, file);
             }
-            pctUser.SizeMode = PictureBoxSizeMode.CenterImage; // Setting the picture box type
-
-            userImage = new Bitmap(path);
-
-            pctUser.Image = new Bitmap(userImage, new Size(userImage.Width / 4, userImage.Height / 4));
+            picBox.SizeMode = PictureBoxSizeMode.Zoom; // Setting the picture box type
+            picBox.Image = new Bitmap(path);
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
@@ -117,11 +116,6 @@ namespace FaceAI
             if (pnlUser.Visible)
             {
                 lblWelcome.Text = String.Format("Welcome {0} {1}", currentUser.First_name, currentUser.Surname);
-            } else
-            {
-                lblWelcome.Text = String.Format("ERROR");
-                userImage = null;
-                pctUser.Image.Dispose();
             }
         }
 
@@ -159,11 +153,37 @@ namespace FaceAI
                 {
                     if(face.Similarity > 0)
                     {
-                        lstSimilarFaces.Items.Add($"{face.Filename}\t{face.Similarity}");
+                        User matching = dbs.FindUser(face.Filename);
+                        if(matching != null)
+                        {
+                            // If the user already exists just add an image
+                            if (foundUsers.Any(item => item.Username == matching.Username))
+                            {
+                                foreach (User usr in foundUsers.Where(item => item.Username == matching.Username))
+                                {
+                                    usr.Images.Add(matching.Images[0]);
+                                }
+                            }
+                            else
+                            {
+                                foundUsers.Add(matching);
+                                lstSimilarFaces.Items.Add($"{matching.First_name}\t{matching.Surname}\t{matching.Images[0]}");
+                            }
+                        }
                     }
                 }
                 pbarProgress.Value = 100;
             }
+        }
+
+        private void lstSimilarFaces_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int index = lstSimilarFaces.SelectedIndex;
+            User selected = foundUsers[index];
+
+            lblSelectedUser.Text = String.Format("{0} {1}", selected.First_name, selected.Surname);
+
+            setFace(selected.Images[0], pctSelected);
         }
     }
 }

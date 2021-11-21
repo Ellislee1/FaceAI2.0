@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using FaceAI.Classes;
 using FaceAI.Exceptions;
 using Microsoft.Data.SqlClient;
@@ -184,6 +185,36 @@ namespace FaceAI.Azure.Database
                 reader.Close();
                 con.Close();
             }
+        }
+
+        public User FindUser(string filename)
+        {
+            User thisUser = null;
+
+            string query = String.Format("SELECT registered.username, first_name, surname, faceID FROM facelinks INNER JOIN registered ON facelinks.username = registered.username WHERE faceLinks.faceID = '{0}'", filename);
+
+            using (SqlConnection con = new SqlConnection(builder.ConnectionString))
+            {
+                using (SqlCommand command = new SqlCommand(query, con))
+                {
+                    con.Open();
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+
+                        while (reader.Read())
+                        {
+                            List<string> image = new List<string>();
+                            image.Add(filename);
+                            thisUser = new User(reader.GetString(0).Trim(), null, reader.GetString(1).Trim(), reader.GetString(2).Trim(), image, null);
+                            break;
+                        }
+                        reader.Close();
+                    }
+                    con.Close();
+                }
+            }
+            return thisUser;
         }
     }
 }
