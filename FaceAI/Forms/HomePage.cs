@@ -25,6 +25,7 @@ namespace FaceAI
         private Bitmap compareImage;
         private RecognitionActions recognitionModel;
         private List<string> tempFaces;
+        private List<User> foundUsers;
 
         internal User CurrentUser { get => currentUser;}
 
@@ -37,6 +38,7 @@ namespace FaceAI
 
             pctCompare.SizeMode = PictureBoxSizeMode.Zoom;
             tempFaces = new List<string>();
+            foundUsers = new List<User>();
         }
 
         private void btnRegister_Click(object sender, EventArgs e)
@@ -154,7 +156,12 @@ namespace FaceAI
                 {
                     if(face.Similarity > 0)
                     {
-                        lstSimilarFaces.Items.Add($"{face.Filename}\t{face.Similarity}");
+                        User matching = dbs.FindUser(face.Filename);
+                        if(matching != null)
+                        {
+                            foundUsers.Add(matching);
+                            lstSimilarFaces.Items.Add($"{matching.First_name}\t{matching.Surname}");
+                        }
                     }
                 }
                 pbarProgress.Value = 100;
