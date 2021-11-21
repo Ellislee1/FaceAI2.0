@@ -60,7 +60,7 @@ namespace FaceAI.Azure.AI
                 pbar.Value += 15;
                 IList<FaceSimilarity> targetFaces = new List<FaceSimilarity>();
                 int length = targetImageFileNames.Count;
-                int val = pbar.Value-7;
+                int val = 70-pbar.Value;
                 int itr = val/length;
                 foreach (string targetImageFileName in targetImageFileNames)
                 {
@@ -94,6 +94,8 @@ namespace FaceAI.Azure.AI
 
                     pbar.Value += (int)(0.5 * itr);
                 }
+
+                pbar.Value = 70;
                 return (List<FaceSimilarity>)targetFaces;
             }
             catch (Exception e)
