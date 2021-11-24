@@ -29,6 +29,7 @@ namespace FaceAI
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.txtUsername = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtPassword = new System.Windows.Forms.TextBox();
@@ -51,6 +52,8 @@ namespace FaceAI
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.label4 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.ctxClose = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.mnuClose = new System.Windows.Forms.ToolStripMenuItem();
             this.grpLogin.SuspendLayout();
             this.pnlUser.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pctUser)).BeginInit();
@@ -58,6 +61,7 @@ namespace FaceAI
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.ctxClose.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtUsername
@@ -274,6 +278,20 @@ namespace FaceAI
             this.pictureBox1.TabIndex = 12;
             this.pictureBox1.TabStop = false;
             // 
+            // ctxClose
+            // 
+            this.ctxClose.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuClose});
+            this.ctxClose.Name = "ctxClose";
+            this.ctxClose.Size = new System.Drawing.Size(181, 48);
+            this.ctxClose.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.ctxClose_ItemClicked);
+            // 
+            // mnuClose
+            // 
+            this.mnuClose.Name = "mnuClose";
+            this.mnuClose.Size = new System.Drawing.Size(180, 22);
+            this.mnuClose.Text = "Close Tab";
+            // 
             // HomePage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -300,6 +318,7 @@ namespace FaceAI
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.ctxClose.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -328,6 +347,8 @@ namespace FaceAI
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ContextMenuStrip ctxClose;
+        private System.Windows.Forms.ToolStripMenuItem mnuClose;
     }
 }
 

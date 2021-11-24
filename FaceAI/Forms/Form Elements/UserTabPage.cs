@@ -33,6 +33,7 @@ namespace FaceAI.Forms.Form_Elements
             this.UserLabel.Text = String.Format("{0} {1}", this.user.First_name, this.user.Surname);
             this.ProfileImage.SizeMode = PictureBoxSizeMode.Zoom;
             this.ProfileImage.Image = image;
+
         }
 
         internal Label UserLabel { get => userLabel; set => userLabel = value; }

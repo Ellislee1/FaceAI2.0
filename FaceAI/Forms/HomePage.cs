@@ -41,6 +41,8 @@ namespace FaceAI
             tempFaces = new List<string>();
             foundUsers = new List<User>();
             tabControl1.TabPages.Clear();
+
+            tabControl1.MouseClick += new MouseEventHandler(tabMouseClick);
         }
 
         private void btnRegister_Click(object sender, EventArgs e)
@@ -224,6 +226,30 @@ namespace FaceAI
         {
             List<Profiles> userProfiles = dbs.GetUserProfiles(user.Username);
             user.Profiles = userProfiles;
+        }
+
+        private void tabMouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                ctxClose.Show(this.tabControl1, e.Location);
+            }
+        }
+
+        private void ctxClose_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            if (e.ClickedItem == mnuClose)
+            {
+                int index = tabControl1.SelectedIndex;
+                if (index > 0)
+                {
+                    tabControl1.SelectedIndex--;
+                    tabControl1.TabPages.RemoveAt(index);
+                } else
+                {
+                    tabControl1.TabPages.Clear();
+                }
+            }
         }
     }
 }
