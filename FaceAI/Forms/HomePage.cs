@@ -262,5 +262,15 @@ namespace FaceAI
             frmEdit.Focus();
             frmEdit = null;
         }
+
+        private void pctUser_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblWelcome_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
