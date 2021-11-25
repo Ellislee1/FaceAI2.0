@@ -79,6 +79,7 @@ namespace FaceAI.Forms.Form_Elements
             this.OnlineProfiles.Location = new System.Drawing.Point(167, 98);
             this.OnlineProfiles.Name = $"lst{name}";
             this.OnlineProfiles.Size = new System.Drawing.Size(302, 79);
+            this.OnlineProfiles.HorizontalScrollbar = true;
         }
 
         private void AddStatic(string name)
