@@ -151,7 +151,7 @@ namespace FaceAI.Azure.Database
         {
             List<Profiles> profiles = new List<Profiles>();
 
-            String query = String.Format("SELECT site, site_username, link FROM faceLinks WHERE username = '{0}'", username);
+            String query = String.Format("SELECT site, site_username, link FROM siteLinks WHERE username = '{0}'", username);
 
             using (SqlConnection con = new SqlConnection(builder.ConnectionString))
             {
@@ -164,7 +164,7 @@ namespace FaceAI.Azure.Database
 
                         while (reader.Read())
                         {
-                            profiles.Add(new Profiles(reader.GetString(0), reader.GetString(1), reader.GetString(2)));
+                            profiles.Add(new Profiles(reader.GetString(0).Trim(), reader.GetString(1).Trim(), reader.GetString(2).Trim()));
                         }
                         reader.Close();
                     }

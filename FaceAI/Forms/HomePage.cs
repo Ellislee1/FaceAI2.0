@@ -3,6 +3,7 @@ using FaceAI.Azure.Database;
 using FaceAI.Classes;
 using FaceAI.Exceptions;
 using FaceAI.Forms;
+using FaceAI.Forms.Form_Elements;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -39,6 +40,9 @@ namespace FaceAI
             pctCompare.SizeMode = PictureBoxSizeMode.Zoom;
             tempFaces = new List<string>();
             foundUsers = new List<User>();
+            tabControl1.TabPages.Clear();
+
+            tabControl1.MouseClick += new MouseEventHandler(tabMouseClick);
         }
 
         private void btnRegister_Click(object sender, EventArgs e)
@@ -82,6 +86,11 @@ namespace FaceAI
 
                 grpLogin.Visible = false;
                 pnlUser.Visible = true;
+                GetSites(this.currentUser);
+
+                foreach(Profiles profile in this.currentUser.Profiles){
+                    lstProfiles.Items.Add($"{profile.Site}\t{profile.Link}");
+                }
                 txtPassword.Text = "";
                 txtUsername.Text = "";
             } catch (UserExistsException ex)
@@ -97,12 +106,19 @@ namespace FaceAI
         private async void setFace(string file, PictureBox picBox)
         {
             string path = PATH_TO_TEMP + file;
+            await downloadImage(file);
+            picBox.SizeMode = PictureBoxSizeMode.Zoom; // Setting the picture box type
+            picBox.Image = new Bitmap(path);
+        }
+
+        private async Task<bool> downloadImage(string file)
+        {
+            string path = PATH_TO_TEMP + file;
             if (!File.Exists(path))
             {
                 await BlobHandler.DownloadToTemp(path, file);
             }
-            picBox.SizeMode = PictureBoxSizeMode.Zoom; // Setting the picture box type
-            picBox.Image = new Bitmap(path);
+            return true;
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
@@ -128,9 +144,12 @@ namespace FaceAI
 
         private async void btnUpload_Click(object sender, EventArgs e)
         {
+            btnUpload.Enabled = false;
+            this.foundUsers.Clear();
             lstSimilarFaces.Items.Clear();
             OpenFileDialog filedialog = new OpenFileDialog();
-            filedialog.Filter = "JPEG files(*.jpg)| *.jpg |PNG files(*.png)| *.png|All files (*.*)|*.*";
+            filedialog.Filter = "JPEG files(*.jpg)|*.jpg|PNG files(*.png)|*.png|All files (*.*)|*.*";
+            tabControl1.TabPages.Clear();
             if (filedialog.ShowDialog() == DialogResult.OK)
             {
                 pbarProgress.Value = 0;
@@ -167,23 +186,81 @@ namespace FaceAI
                             else
                             {
                                 foundUsers.Add(matching);
-                                lstSimilarFaces.Items.Add($"{matching.First_name}\t{matching.Surname}\t{matching.Images[0]}");
+                                lstSimilarFaces.Items.Add($"{matching.First_name}\t{matching.Surname}");
                             }
                         }
                     }
                 }
                 pbarProgress.Value = 100;
             }
+            btnUpload.Enabled = true;
         }
 
-        private void lstSimilarFaces_SelectedIndexChanged(object sender, EventArgs e)
+        private async void lstSimilarFaces_SelectedIndexChanged(object sender, EventArgs e)
         {
             int index = lstSimilarFaces.SelectedIndex;
             User selected = foundUsers[index];
 
-            lblSelectedUser.Text = String.Format("{0} {1}", selected.First_name, selected.Surname);
+            string path = PATH_TO_TEMP + selected.Images[0];
+            await downloadImage(selected.Images[0]);
+            Bitmap image = new Bitmap(path);
 
-            setFace(selected.Images[0], pctSelected);
+            selected.Profiles = dbs.GetUserProfiles(selected.Username);
+
+            tabControl1.Controls.Add(new UserTabPage(selected.Username, $"{selected.First_name} " +
+                $"{selected.Surname}",selected,image));
+            tabControl1.SelectedIndex = tabControl1.TabCount - 1;
+        }
+
+        private void HomePage_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            // Delete the temp path
+            try
+            {
+                Directory.Delete(PATH_TO_TEMP, true);
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        private void GetSites(User user)
+        {
+            List<Profiles> userProfiles = dbs.GetUserProfiles(user.Username);
+            user.Profiles = userProfiles;
+        }
+
+        private void tabMouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                ctxClose.Show(this.tabControl1, e.Location);
+            }
+        }
+
+        private void ctxClose_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            if (e.ClickedItem == mnuClose)
+            {
+                int index = tabControl1.SelectedIndex;
+                if (index > 0)
+                {
+                    tabControl1.SelectedIndex--;
+                    tabControl1.TabPages.RemoveAt(index);
+                } else
+                {
+                    tabControl1.TabPages.Clear();
+                }
+            }
+        }
+
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            EditUser frmEdit = new EditUser(PATH_TO_TEMP);
+
+            frmEdit.Show();
+            frmEdit.Focus();
+            frmEdit = null;
         }
     }
 }

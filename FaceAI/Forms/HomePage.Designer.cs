@@ -29,6 +29,7 @@ namespace FaceAI
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.txtUsername = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtPassword = new System.Windows.Forms.TextBox();
@@ -37,6 +38,7 @@ namespace FaceAI
             this.btnLogIn = new System.Windows.Forms.Button();
             this.grpLogin = new System.Windows.Forms.GroupBox();
             this.pnlUser = new System.Windows.Forms.Panel();
+            this.btnEdit = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.lstProfiles = new System.Windows.Forms.ListBox();
             this.btnNewProfile = new System.Windows.Forms.Button();
@@ -47,15 +49,22 @@ namespace FaceAI
             this.btnUpload = new System.Windows.Forms.Button();
             this.lstSimilarFaces = new System.Windows.Forms.ListBox();
             this.pbarProgress = new System.Windows.Forms.ProgressBar();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.pctSelected = new System.Windows.Forms.PictureBox();
-            this.lblSelectedUser = new System.Windows.Forms.Label();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.label5 = new System.Windows.Forms.Label();
+            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.ctxClose = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.mnuClose = new System.Windows.Forms.ToolStripMenuItem();
             this.grpLogin.SuspendLayout();
             this.pnlUser.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pctUser)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pctCompare)).BeginInit();
-            this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pctSelected)).BeginInit();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.ctxClose.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtUsername
@@ -130,6 +139,7 @@ namespace FaceAI
             // 
             // pnlUser
             // 
+            this.pnlUser.Controls.Add(this.btnEdit);
             this.pnlUser.Controls.Add(this.label3);
             this.pnlUser.Controls.Add(this.lstProfiles);
             this.pnlUser.Controls.Add(this.btnNewProfile);
@@ -142,6 +152,16 @@ namespace FaceAI
             this.pnlUser.TabIndex = 7;
             this.pnlUser.Visible = false;
             this.pnlUser.VisibleChanged += new System.EventHandler(this.pnlUser_VisibleChanged);
+            // 
+            // btnEdit
+            // 
+            this.btnEdit.Location = new System.Drawing.Point(186, 400);
+            this.btnEdit.Name = "btnEdit";
+            this.btnEdit.Size = new System.Drawing.Size(75, 23);
+            this.btnEdit.TabIndex = 11;
+            this.btnEdit.Text = "Edit Profile";
+            this.btnEdit.UseVisualStyleBackColor = true;
+            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
             // label3
             // 
@@ -158,12 +178,12 @@ namespace FaceAI
             this.lstProfiles.ItemHeight = 15;
             this.lstProfiles.Location = new System.Drawing.Point(10, 240);
             this.lstProfiles.Name = "lstProfiles";
-            this.lstProfiles.Size = new System.Drawing.Size(180, 154);
+            this.lstProfiles.Size = new System.Drawing.Size(251, 154);
             this.lstProfiles.TabIndex = 10;
             // 
             // btnNewProfile
             // 
-            this.btnNewProfile.Location = new System.Drawing.Point(115, 400);
+            this.btnNewProfile.Location = new System.Drawing.Point(105, 400);
             this.btnNewProfile.Name = "btnNewProfile";
             this.btnNewProfile.Size = new System.Drawing.Size(75, 23);
             this.btnNewProfile.TabIndex = 9;
@@ -175,7 +195,7 @@ namespace FaceAI
             // 
             this.pctUser.Location = new System.Drawing.Point(10, 32);
             this.pctUser.Name = "pctUser";
-            this.pctUser.Size = new System.Drawing.Size(180, 180);
+            this.pctUser.Size = new System.Drawing.Size(251, 180);
             this.pctUser.TabIndex = 8;
             this.pctUser.TabStop = false;
             // 
@@ -234,59 +254,109 @@ namespace FaceAI
             this.pbarProgress.Size = new System.Drawing.Size(402, 23);
             this.pbarProgress.TabIndex = 12;
             // 
-            // groupBox1
+            // tabControl1
             // 
-            this.groupBox1.Controls.Add(this.lblSelectedUser);
-            this.groupBox1.Controls.Add(this.pctSelected);
-            this.groupBox1.Location = new System.Drawing.Point(305, 234);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(483, 204);
-            this.groupBox1.TabIndex = 13;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Selected User";
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Location = new System.Drawing.Point(305, 227);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(483, 215);
+            this.tabControl1.TabIndex = 13;
             // 
-            // pctSelected
+            // tabPage1
             // 
-            this.pctSelected.Location = new System.Drawing.Point(6, 44);
-            this.pctSelected.Name = "pctSelected";
-            this.pctSelected.Size = new System.Drawing.Size(155, 154);
-            this.pctSelected.TabIndex = 11;
-            this.pctSelected.TabStop = false;
+            this.tabPage1.Controls.Add(this.label5);
+            this.tabPage1.Controls.Add(this.listBox1);
+            this.tabPage1.Controls.Add(this.label4);
+            this.tabPage1.Controls.Add(this.pictureBox1);
+            this.tabPage1.Location = new System.Drawing.Point(4, 24);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(475, 187);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // lblSelectedUser
+            // label5
             // 
-            this.lblSelectedUser.AutoSize = true;
-            this.lblSelectedUser.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblSelectedUser.Location = new System.Drawing.Point(6, 19);
-            this.lblSelectedUser.Name = "lblSelectedUser";
-            this.lblSelectedUser.Size = new System.Drawing.Size(155, 17);
-            this.lblSelectedUser.TabIndex = 12;
-            this.lblSelectedUser.Text = "<Firstname> <Surname>";
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label5.Location = new System.Drawing.Point(167, 78);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(92, 17);
+            this.label5.TabIndex = 15;
+            this.label5.Text = "Online Profiles";
+            // 
+            // listBox1
+            // 
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.ItemHeight = 15;
+            this.listBox1.Location = new System.Drawing.Point(167, 98);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(302, 79);
+            this.listBox1.TabIndex = 14;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label4.Location = new System.Drawing.Point(6, 3);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(107, 17);
+            this.label4.TabIndex = 13;
+            this.label4.Text = "No user selected";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(6, 23);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(155, 154);
+            this.pictureBox1.TabIndex = 12;
+            this.pictureBox1.TabStop = false;
+            // 
+            // ctxClose
+            // 
+            this.ctxClose.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuClose});
+            this.ctxClose.Name = "ctxClose";
+            this.ctxClose.Size = new System.Drawing.Size(125, 26);
+            this.ctxClose.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.ctxClose_ItemClicked);
+            // 
+            // mnuClose
+            // 
+            this.mnuClose.Name = "mnuClose";
+            this.mnuClose.Size = new System.Drawing.Size(124, 22);
+            this.mnuClose.Text = "Close Tab";
             // 
             // HomePage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.groupBox1);
+            this.ClientSize = new System.Drawing.Size(801, 456);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.pbarProgress);
             this.Controls.Add(this.lstSimilarFaces);
             this.Controls.Add(this.btnUpload);
             this.Controls.Add(this.pctCompare);
             this.Controls.Add(this.pnlUser);
             this.Controls.Add(this.grpLogin);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "HomePage";
             this.Text = "Home";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.HomePage_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.HomePage_FormClosed);
             this.grpLogin.ResumeLayout(false);
             this.grpLogin.PerformLayout();
             this.pnlUser.ResumeLayout(false);
             this.pnlUser.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pctUser)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pctCompare)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pctSelected)).EndInit();
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.ctxClose.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -311,9 +381,15 @@ namespace FaceAI
         private System.Windows.Forms.Button btnUpload;
         private System.Windows.Forms.ListBox lstSimilarFaces;
         private System.Windows.Forms.ProgressBar pbarProgress;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label lblSelectedUser;
-        private System.Windows.Forms.PictureBox pctSelected;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ContextMenuStrip ctxClose;
+        private System.Windows.Forms.ToolStripMenuItem mnuClose;
+        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button btnEdit;
     }
 }
 
