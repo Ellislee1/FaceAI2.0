@@ -19,7 +19,7 @@ namespace FaceAI.Forms.Form_Elements
 
         public UserTabPage(string name, string text, User user, Bitmap image)
         {
-            this.user = user;
+            this.User = user;
             SetupImage(name);
             SetupLabel(name);
             SetupListbox(name);
@@ -36,11 +36,11 @@ namespace FaceAI.Forms.Form_Elements
             this.UseVisualStyleBackColor = true;
 
             // Add context to the user
-            this.UserLabel.Text = String.Format("{0} {1}", this.user.First_name, this.user.Surname);
+            this.UserLabel.Text = String.Format("{0} {1}", this.User.First_name, this.User.Surname);
             this.ProfileImage.SizeMode = PictureBoxSizeMode.Zoom;
             this.ProfileImage.Image = image;
 
-            foreach(Profiles profile in this.user.Profiles)
+            foreach(Profiles profile in this.User.Profiles)
             {
                 onlineProfiles.Items.Add($"{profile.Site}\t| {profile.Link} \t| {profile.Username}");
             }
@@ -49,6 +49,7 @@ namespace FaceAI.Forms.Form_Elements
         internal ListBox OnlineProfiles { get => onlineProfiles; set => onlineProfiles = value; }
         internal Label UserLabel { get => userLabel; set => userLabel = value; }
         internal PictureBox ProfileImage { get => profileImage; set => profileImage = value; }
+        public User User { get => user; private set => user = value; }
 
         private void SetupImage(string name)
         {
@@ -67,7 +68,7 @@ namespace FaceAI.Forms.Form_Elements
             this.UserLabel.Location = new System.Drawing.Point(6, 3);
             this.UserLabel.Name = $"lbl{name}";
             this.UserLabel.Size = new System.Drawing.Size(107, 17);
-            this.UserLabel.Text = $"{this.user.First_name} {this.user.Surname}";
+            this.UserLabel.Text = $"{this.User.First_name} {this.User.Surname}";
         }
 
         private void SetupListbox(string name)
@@ -75,7 +76,7 @@ namespace FaceAI.Forms.Form_Elements
             this.OnlineProfiles = new ListBox();
             this.OnlineProfiles.FormattingEnabled = true;
             this.OnlineProfiles.ItemHeight = 15;
-            this.OnlineProfiles.Location = new System.Drawing.Point(167, 83);
+            this.OnlineProfiles.Location = new System.Drawing.Point(167, 98);
             this.OnlineProfiles.Name = $"lst{name}";
             this.OnlineProfiles.Size = new System.Drawing.Size(302, 79);
         }

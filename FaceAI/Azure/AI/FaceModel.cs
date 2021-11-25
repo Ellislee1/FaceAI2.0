@@ -48,18 +48,18 @@ namespace FaceAI.Azure.AI
             return detectedFaces.ToList();
         }
 
-        public async Task<IList<SimilarFace>> FindSimilar(DetectedFace detected, IList<FaceSimilarity> targets)
+        public async Task<IList<SimilarFace>> FindSimilar(DetectedFace detected, IList<Face> targets)
         {
             IList<Guid?> targetGuids = GetIds(targets);
 
            return await client.Face.FindSimilarAsync(detected.FaceId.Value, null, null, targetGuids);
         }
 
-        private IList<Guid?> GetIds(IList<FaceSimilarity> targets)
+        private IList<Guid?> GetIds(IList<Face> targets)
         {
             IList<Guid?> guids = new List<Guid?>();
 
-            foreach(FaceSimilarity face in targets)
+            foreach(Face face in targets)
             {
                 guids.Add(face.ImageGuid);
             }

@@ -42,26 +42,14 @@ namespace FaceAI.Azure.AI
             return isFace;
         }
 
-        public async Task<List<FaceSimilarity>> FindSimilar(Bitmap image, ProgressBar pbar)
+        public async Task<List<Face>> FindSimilar(Face parent, ProgressBar pbar, int incrimentVal)
         {
-            BlobImage blobImage = await BlobCommonActions.SaveImageAsync(tempPath, image);
             try
             {
-                bool isFace = await ImageisFaceAsync(blobImage);
-                // If no face is detected then throw this exception
-                if (!isFace)
-                {
-                    pbar.Value = 100;
-                    throw new NoFaceException();
-                }
-                pbar.Value += 5;
-
                 List<string> targetImageFileNames = await BlobCommonActions.GetFilesAsync();
-                pbar.Value += 15;
-                IList<FaceSimilarity> targetFaces = new List<FaceSimilarity>();
-                int length = targetImageFileNames.Count;
-                int val = 70-pbar.Value;
-                int itr = val/length;
+                List<Face> targetFaces = new List<Face>();
+
+                int incrimentable = incrimentVal / targetImageFileNames.Count;
                 foreach (string targetImageFileName in targetImageFileNames)
                 {
                     string url = "https://6221faces.blob.core.windows.net/faces/" + targetImageFileName;
@@ -70,43 +58,46 @@ namespace FaceAI.Azure.AI
                     // Add detected faceId to list of values about this face.
                     foreach (var face in faces)
                     {
-                        FaceSimilarity faceVal = new FaceSimilarity(targetImageFileName, url, 0, face.FaceId.Value, face.FaceRectangle);
+                        Face faceVal = new Face(targetImageFileName, url, 0, face.FaceId.Value, face.FaceRectangle);
                         targetFaces.Add(faceVal);
-                        pbar.Value += (int)(0.25 * itr);
                     }
 
-                    IList<DetectedFace> detectedFace = await model.DetectFaceRecognize(blobImage.Url);
-
-                    IList<SimilarFace> results = await model.FindSimilar(detectedFace[0], targetFaces);
+                    IList<SimilarFace> results = await model.FindSimilar(parent.DetectedFace, targetFaces);
 
                     foreach (SimilarFace face in results)
                     {
-                        foreach (FaceSimilarity aFace in targetFaces.Where(x =>
+                        foreach (Face aFace in targetFaces.Where(x =>
                         {
-                            return (x.ImageGuid != detectedFace[0].FaceId) && (x.ImageGuid == face.FaceId);
+                            return (x.ImageGuid != parent.DetectedFace.FaceId) && (x.ImageGuid == face.FaceId);
                         }))
                         {
                             aFace.Similarity = face.Confidence >= this.threashold ? face.Confidence : 0;
-                            pbar.Value += (int)(0.1 * itr);
                         }
-                        pbar.Value += (int)(0.15 * itr);
                     }
 
-                    pbar.Value += (int)(0.5 * itr);
+                    pbar.Value += incrimentable;
                 }
-
-                pbar.Value = 70;
-                return (List<FaceSimilarity>)targetFaces;
+                return targetFaces;
             }
             catch (Exception e)
             {
                 throw new Exception(e.Message);
             }
-            finally
+        }
+
+        public async Task<List<Face>> FindParent(Bitmap image)
+        {
+            BlobImage blobImage = await BlobCommonActions.SaveImageAsync(tempPath, image);
+            List<DetectedFace> detected = await model.DetectFaceRecognize(blobImage.Url);
+
+            List<Face> allFaces = new List<Face>();
+            foreach(var face in detected)
             {
-                BlobCommonActions.DeleteImage(blobImage);
-                pbar.Value += 5;
+                Face thisFace = new Face(blobImage.Filename, blobImage.Url, 1, face.FaceId.Value, face.FaceRectangle, face);
+                allFaces.Add(thisFace);
             }
+
+            return allFaces;
         }
     }
 }
