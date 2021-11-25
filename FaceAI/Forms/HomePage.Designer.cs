@@ -38,6 +38,7 @@ namespace FaceAI
             this.btnLogIn = new System.Windows.Forms.Button();
             this.grpLogin = new System.Windows.Forms.GroupBox();
             this.pnlUser = new System.Windows.Forms.Panel();
+            this.btnEdit = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.lstProfiles = new System.Windows.Forms.ListBox();
             this.btnNewProfile = new System.Windows.Forms.Button();
@@ -50,12 +51,12 @@ namespace FaceAI
             this.pbarProgress = new System.Windows.Forms.ProgressBar();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.label5 = new System.Windows.Forms.Label();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.label4 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.ctxClose = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuClose = new System.Windows.Forms.ToolStripMenuItem();
-            this.label5 = new System.Windows.Forms.Label();
             this.grpLogin.SuspendLayout();
             this.pnlUser.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pctUser)).BeginInit();
@@ -138,6 +139,7 @@ namespace FaceAI
             // 
             // pnlUser
             // 
+            this.pnlUser.Controls.Add(this.btnEdit);
             this.pnlUser.Controls.Add(this.label3);
             this.pnlUser.Controls.Add(this.lstProfiles);
             this.pnlUser.Controls.Add(this.btnNewProfile);
@@ -150,6 +152,16 @@ namespace FaceAI
             this.pnlUser.TabIndex = 7;
             this.pnlUser.Visible = false;
             this.pnlUser.VisibleChanged += new System.EventHandler(this.pnlUser_VisibleChanged);
+            // 
+            // btnEdit
+            // 
+            this.btnEdit.Location = new System.Drawing.Point(186, 400);
+            this.btnEdit.Name = "btnEdit";
+            this.btnEdit.Size = new System.Drawing.Size(75, 23);
+            this.btnEdit.TabIndex = 11;
+            this.btnEdit.Text = "Edit Profile";
+            this.btnEdit.UseVisualStyleBackColor = true;
+            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
             // label3
             // 
@@ -171,7 +183,7 @@ namespace FaceAI
             // 
             // btnNewProfile
             // 
-            this.btnNewProfile.Location = new System.Drawing.Point(186, 400);
+            this.btnNewProfile.Location = new System.Drawing.Point(105, 400);
             this.btnNewProfile.Name = "btnNewProfile";
             this.btnNewProfile.Size = new System.Drawing.Size(75, 23);
             this.btnNewProfile.TabIndex = 9;
@@ -264,6 +276,16 @@ namespace FaceAI
             this.tabPage1.TabIndex = 0;
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label5.Location = new System.Drawing.Point(167, 78);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(92, 17);
+            this.label5.TabIndex = 15;
+            this.label5.Text = "Online Profiles";
+            // 
             // listBox1
             // 
             this.listBox1.FormattingEnabled = true;
@@ -305,16 +327,6 @@ namespace FaceAI
             this.mnuClose.Size = new System.Drawing.Size(124, 22);
             this.mnuClose.Text = "Close Tab";
             // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label5.Location = new System.Drawing.Point(167, 78);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(92, 17);
-            this.label5.TabIndex = 15;
-            this.label5.Text = "Online Profiles";
-            // 
             // HomePage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -327,6 +339,9 @@ namespace FaceAI
             this.Controls.Add(this.pctCompare);
             this.Controls.Add(this.pnlUser);
             this.Controls.Add(this.grpLogin);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "HomePage";
             this.Text = "Home";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.HomePage_FormClosing);
@@ -374,6 +389,7 @@ namespace FaceAI
         private System.Windows.Forms.ToolStripMenuItem mnuClose;
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button btnEdit;
     }
 }
 

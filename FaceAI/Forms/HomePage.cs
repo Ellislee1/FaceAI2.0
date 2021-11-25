@@ -253,5 +253,14 @@ namespace FaceAI
                 }
             }
         }
+
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            EditUser frmEdit = new EditUser(PATH_TO_TEMP);
+
+            frmEdit.Show();
+            frmEdit.Focus();
+            frmEdit = null;
+        }
     }
 }
