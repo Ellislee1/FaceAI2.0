@@ -205,6 +205,8 @@ namespace FaceAI
             await downloadImage(selected.Images[0]);
             Bitmap image = new Bitmap(path);
 
+            selected.Profiles = dbs.GetUserProfiles(selected.Username);
+
             tabControl1.Controls.Add(new UserTabPage(selected.Username, $"{selected.First_name} " +
                 $"{selected.Surname}",selected,image));
             tabControl1.SelectedIndex = tabControl1.TabCount - 1;

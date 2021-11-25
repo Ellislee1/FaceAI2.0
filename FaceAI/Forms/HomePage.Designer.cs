@@ -50,10 +50,12 @@ namespace FaceAI
             this.pbarProgress = new System.Windows.Forms.ProgressBar();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.listBox1 = new System.Windows.Forms.ListBox();
             this.label4 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.ctxClose = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuClose = new System.Windows.Forms.ToolStripMenuItem();
+            this.label5 = new System.Windows.Forms.Label();
             this.grpLogin.SuspendLayout();
             this.pnlUser.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pctUser)).BeginInit();
@@ -251,6 +253,8 @@ namespace FaceAI
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.label5);
+            this.tabPage1.Controls.Add(this.listBox1);
             this.tabPage1.Controls.Add(this.label4);
             this.tabPage1.Controls.Add(this.pictureBox1);
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
@@ -259,6 +263,15 @@ namespace FaceAI
             this.tabPage1.Size = new System.Drawing.Size(475, 187);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // listBox1
+            // 
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.ItemHeight = 15;
+            this.listBox1.Location = new System.Drawing.Point(167, 98);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(302, 79);
+            this.listBox1.TabIndex = 14;
             // 
             // label4
             // 
@@ -283,14 +296,24 @@ namespace FaceAI
             this.ctxClose.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuClose});
             this.ctxClose.Name = "ctxClose";
-            this.ctxClose.Size = new System.Drawing.Size(181, 48);
+            this.ctxClose.Size = new System.Drawing.Size(125, 26);
             this.ctxClose.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.ctxClose_ItemClicked);
             // 
             // mnuClose
             // 
             this.mnuClose.Name = "mnuClose";
-            this.mnuClose.Size = new System.Drawing.Size(180, 22);
+            this.mnuClose.Size = new System.Drawing.Size(124, 22);
             this.mnuClose.Text = "Close Tab";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label5.Location = new System.Drawing.Point(167, 78);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(92, 17);
+            this.label5.TabIndex = 15;
+            this.label5.Text = "Online Profiles";
             // 
             // HomePage
             // 
@@ -349,6 +372,8 @@ namespace FaceAI
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ContextMenuStrip ctxClose;
         private System.Windows.Forms.ToolStripMenuItem mnuClose;
+        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.Label label5;
     }
 }
 
