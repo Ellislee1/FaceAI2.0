@@ -67,17 +67,19 @@ namespace FaceAI.Forms
             // 
             // cboSite
             // 
+            this.cboSite.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboSite.FormattingEnabled = true;
             this.cboSite.Items.AddRange(new object[] {
             "Facebook",
             "LinkedIn",
-            "Stackoverflow",
             "Stack Exchange",
+            "Stackoverflow",
             "Twitter",
             "Youtube"});
             this.cboSite.Location = new System.Drawing.Point(78, 15);
             this.cboSite.Name = "cboSite";
             this.cboSite.Size = new System.Drawing.Size(134, 23);
+            this.cboSite.Sorted = true;
             this.cboSite.TabIndex = 3;
             // 
             // txtUsername
