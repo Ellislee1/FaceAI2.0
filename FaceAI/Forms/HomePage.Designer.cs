@@ -57,6 +57,8 @@ namespace FaceAI
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.ctxClose = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuClose = new System.Windows.Forms.ToolStripMenuItem();
+            this.lstConsole = new System.Windows.Forms.ListBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.grpLogin.SuspendLayout();
             this.pnlUser.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pctUser)).BeginInit();
@@ -268,6 +270,7 @@ namespace FaceAI
             this.lstSimilarFaces.Location = new System.Drawing.Point(718, 16);
             this.lstSimilarFaces.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.lstSimilarFaces.Name = "lstSimilarFaces";
+            this.lstSimilarFaces.Sorted = true;
             this.lstSimilarFaces.Size = new System.Drawing.Size(182, 244);
             this.lstSimilarFaces.TabIndex = 11;
             this.lstSimilarFaces.SelectedIndexChanged += new System.EventHandler(this.lstSimilarFaces_SelectedIndexChanged);
@@ -317,6 +320,7 @@ namespace FaceAI
             // listBox1
             // 
             this.listBox1.FormattingEnabled = true;
+            this.listBox1.HorizontalScrollbar = true;
             this.listBox1.ItemHeight = 20;
             this.listBox1.Location = new System.Drawing.Point(191, 131);
             this.listBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -358,11 +362,39 @@ namespace FaceAI
             this.mnuClose.Size = new System.Drawing.Size(141, 24);
             this.mnuClose.Text = "Close Tab";
             // 
+            // lstConsole
+            // 
+            this.lstConsole.BackColor = System.Drawing.SystemColors.MenuText;
+            this.lstConsole.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lstConsole.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.lstConsole.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lstConsole.ForeColor = System.Drawing.SystemColors.HighlightText;
+            this.lstConsole.FormattingEnabled = true;
+            this.lstConsole.HorizontalScrollbar = true;
+            this.lstConsole.ItemHeight = 15;
+            this.lstConsole.Location = new System.Drawing.Point(794, 35);
+            this.lstConsole.Name = "lstConsole";
+            this.lstConsole.SelectionMode = System.Windows.Forms.SelectionMode.None;
+            this.lstConsole.Size = new System.Drawing.Size(340, 407);
+            this.lstConsole.TabIndex = 14;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label6.Location = new System.Drawing.Point(794, 12);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(97, 20);
+            this.label6.TabIndex = 15;
+            this.label6.Text = "Info Console";
+            // 
             // HomePage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(915, 608);
+            this.ClientSize = new System.Drawing.Size(1146, 456);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.lstConsole);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.pbarProgress);
             this.Controls.Add(this.lstSimilarFaces);
@@ -390,6 +422,7 @@ namespace FaceAI
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ctxClose.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -422,6 +455,8 @@ namespace FaceAI
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button btnEdit;
+        private System.Windows.Forms.ListBox lstConsole;
+        private System.Windows.Forms.Label label6;
     }
 }
 
