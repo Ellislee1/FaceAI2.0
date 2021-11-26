@@ -14,6 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Console = FaceAI.Classes.Console;
 
 namespace FaceAI
 {
@@ -27,6 +28,8 @@ namespace FaceAI
         private RecognitionActions recognitionModel;
         private List<string> tempFaces;
         private List<List<User>> foundUsers;
+        private Console console;
+        private List<Face> cache;
 
         internal User CurrentUser { get => currentUser;}
 
@@ -35,14 +38,18 @@ namespace FaceAI
             this.PATH_TO_TEMP = tempPath;
             dbs = new Database();
             InitializeComponent();
-            recognitionModel = new RecognitionActions(PATH_TO_TEMP);
+            cache = new List<Face>();
+            console = new Console(lstConsole);
+            recognitionModel = new RecognitionActions(PATH_TO_TEMP, console, cache);
 
             pctCompare.SizeMode = PictureBoxSizeMode.Zoom;
             tempFaces = new List<string>();
             foundUsers = new List<List<User>>();
             tabControl1.TabPages.Clear();
+            
 
             tabControl1.MouseClick += new MouseEventHandler(tabMouseClick);
+            console.Out("> Setup Complete");
         }
 
         private void btnRegister_Click(object sender, EventArgs e)
@@ -57,6 +64,8 @@ namespace FaceAI
         private void HomePage_FormClosing(object sender, FormClosingEventArgs e)
         {
             // Delete the temp path
+            console.Out("> Closing");
+            console.Out("...");
             try
             {
                 userImage = null;
@@ -85,6 +94,7 @@ namespace FaceAI
             // Try to log the user in
             try
             {
+                console.Out($"> Attempting login with username: {username}");
                 currentUser = dbs.GetUser(username, password);
                 currentUser.Images = dbs.GetImageFiles(username);
                 setFace(currentUser.Images[0], pctUser);
@@ -98,8 +108,10 @@ namespace FaceAI
                 }
                 txtPassword.Text = "";
                 txtUsername.Text = "";
+                console.Out($"> Login Success!");
             } catch (UserExistsException ex)
             {
+                console.Out($"> Error Loggin in with username: {username}");
                 MessageBox.Show(ex.Message, "Login Issue!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             } finally // Clear all user data
             {
@@ -121,6 +133,7 @@ namespace FaceAI
             string path = PATH_TO_TEMP + file;
             if (!File.Exists(path))
             {
+                console.Out($"> Downloading image to: {path}");
                 await BlobHandler.DownloadToTemp(path, file);
             }
             return true;
@@ -160,27 +173,35 @@ namespace FaceAI
                 pbarProgress.Value = 0;
                 pbarProgress.Show();
                 string filePath = filedialog.FileName;
+                console.Out($"> Image path: {filePath}");
                 compareImage = new Bitmap(filePath);
                 pctCompare.Image = compareImage;
 
                 // Test a face is present
+                console.Out($"> Testing face in image");
+                console.Out($"...");
                 bool result = await recognitionModel.ImageisFaceAsync(compareImage);
+                console.Out($"> Face in image : {result}");
                 if (!result)
                 {
                     pbarProgress.Value = 100;
                     MessageBox.Show("No face detected");
                 }
 
+                console.Out($"> Getting parent faces");
                 List<Face> parentFaces = await recognitionModel.FindParent(compareImage);
 
                 pbarProgress.Value = 10;
 
-                int faceIncriment = (100 - 20) / parentFaces.Count();
-                foreach(Face parent in parentFaces)
+                int faceIncriment = (100 - 20);
+                console.Out($"> Getting matching results");
+                List<List<Face>> results = await recognitionModel.FindSimilar(parentFaces, pbarProgress, faceIncriment);
+                console.Out($"> Adding results");
+                foreach (List<Face> parentResults in results)
                 {
-                    List<Face> results = await recognitionModel.FindSimilar(parent, pbarProgress, faceIncriment-5);
+                    
                     List<User> foundCycle = new List<User>();
-                    foreach (Face face in results)
+                    foreach (Face face in parentResults)
                     {
                         if (face.Similarity > 0)
                         {
@@ -197,8 +218,9 @@ namespace FaceAI
                                 }
                                 else
                                 {
+                                    matching.Similarity = face.Similarity;
                                     foundCycle.Add(matching);
-                                    lstSimilarFaces.Items.Add($"{matching.First_name}\t{matching.Surname}");
+                                    lstSimilarFaces.Items.Add($"({(int)(Math.Round(matching.Similarity,2)*100)}%){matching.First_name}\t{matching.Surname}");
                                 }
                             }
                         }

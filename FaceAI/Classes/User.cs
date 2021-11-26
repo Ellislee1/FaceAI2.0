@@ -14,8 +14,9 @@ namespace FaceAI.Classes
         private String surname;
         private List<string> images;
         private List<Profiles> profiles;
+        private double similarity;
 
-        public User(String username, String password ,String first_name, String surname, List<string> images = null, List<Profiles> profiles = null)
+        public User(String username, String password ,String first_name, String surname, List<string> images = null, List<Profiles> profiles = null, double similarity = 0)
         {
             this.username = username;
             this.Password = password;
@@ -23,6 +24,7 @@ namespace FaceAI.Classes
             this.Surname = surname;
             this.Images = images;
             this.Profiles = profiles;
+            this.similarity = similarity;
         }
 
         public string Username => username;
@@ -31,6 +33,7 @@ namespace FaceAI.Classes
         public string Surname { get => surname; set => surname = value; }
         public string Password { get => password; set => password = value; }
         public List<string> Images { get => images; set => images = value; }
+        public double Similarity { get => similarity; set => similarity = value; }
         internal List<Profiles> Profiles { get => profiles; set => profiles = value; }
     }
 }
