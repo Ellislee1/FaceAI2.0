@@ -312,7 +312,7 @@ namespace FaceAI
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
-            EditUser frmEdit = new EditUser(PATH_TO_TEMP);
+            EditUser frmEdit = new EditUser(PATH_TO_TEMP, this.currentUser);
 
             frmEdit.Show();
             frmEdit.Focus();

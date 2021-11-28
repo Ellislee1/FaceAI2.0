@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FaceAI.Classes
 {
-    class User
+    public class User
     {
         private readonly String username;
         private String password;
@@ -15,8 +15,11 @@ namespace FaceAI.Classes
         private List<string> images;
         private List<Profiles> profiles;
         private double similarity;
+        private string field;
+        private string company;
 
-        public User(String username, String password ,String first_name, String surname, List<string> images = null, List<Profiles> profiles = null, double similarity = 0)
+        public User(String username, String password ,String first_name, String surname, List<string> images = null, 
+            List<Profiles> profiles = null, double similarity = 0, string field = "", string company = "")
         {
             this.username = username;
             this.Password = password;
@@ -24,7 +27,10 @@ namespace FaceAI.Classes
             this.Surname = surname;
             this.Images = images;
             this.Profiles = profiles;
-            this.similarity = similarity;
+            this.Similarity = similarity;
+            this.Field = field;
+            this.Company = company;
+
         }
 
         public string Username => username;
@@ -34,6 +40,8 @@ namespace FaceAI.Classes
         public string Password { get => password; set => password = value; }
         public List<string> Images { get => images; set => images = value; }
         public double Similarity { get => similarity; set => similarity = value; }
+        public string Field { get => field; set => field = value; }
+        public string Company { get => company; set => company = value; }
         internal List<Profiles> Profiles { get => profiles; set => profiles = value; }
     }
 }

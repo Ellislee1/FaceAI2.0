@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FaceAI.Classes
 {
-    class Profiles
+    public class Profiles
     {
         private string site;
         private string username;

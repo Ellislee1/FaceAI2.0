@@ -191,7 +191,7 @@ namespace FaceAI.Azure.Database
         {
             User thisUser = null;
 
-            string query = String.Format("SELECT registered.username, first_name, surname, faceID FROM facelinks INNER JOIN registered ON facelinks.username = registered.username WHERE faceLinks.faceID = '{0}'", filename);
+            string query = String.Format("SELECT registered.username, first_name, surname, faceID, field, company FROM facelinks INNER JOIN registered ON facelinks.username = registered.username WHERE faceLinks.faceID = '{0}'", filename);
 
             using (SqlConnection con = new SqlConnection(builder.ConnectionString))
             {
@@ -206,7 +206,7 @@ namespace FaceAI.Azure.Database
                         {
                             List<string> image = new List<string>();
                             image.Add(filename);
-                            thisUser = new User(reader.GetString(0).Trim(), null, reader.GetString(1).Trim(), reader.GetString(2).Trim(), image, null);
+                            thisUser = new User(reader.GetString(0).Trim(), null, reader.GetString(1).Trim(), reader.GetString(2).Trim(), image, null, 0,  reader.GetString(4).Trim(), reader.GetString(5).Trim());
                             break;
                         }
                         reader.Close();
@@ -215,6 +215,16 @@ namespace FaceAI.Azure.Database
                 }
             }
             return thisUser;
+        }
+
+        public void Update(User user)
+        {
+            string query = $"UPDATE registered SET field='{user.Field}', company='{user.Company}' WHERE username='{user.Username}'";
+
+            using (SqlConnection con = new SqlConnection(builder.ConnectionString))
+            {
+                InputRecord(query, con);
+            }
         }
     }
 }

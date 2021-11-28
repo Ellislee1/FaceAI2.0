@@ -59,6 +59,10 @@ namespace FaceAI
             this.mnuClose = new System.Windows.Forms.ToolStripMenuItem();
             this.lstConsole = new System.Windows.Forms.ListBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.txtField = new System.Windows.Forms.TextBox();
+            this.txtCompany = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
             this.grpLogin.SuspendLayout();
             this.pnlUser.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pctUser)).BeginInit();
@@ -278,13 +282,17 @@ namespace FaceAI
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.label8);
+            this.tabPage1.Controls.Add(this.label7);
+            this.tabPage1.Controls.Add(this.txtCompany);
+            this.tabPage1.Controls.Add(this.txtField);
             this.tabPage1.Controls.Add(this.label5);
             this.tabPage1.Controls.Add(this.listBox1);
             this.tabPage1.Controls.Add(this.label4);
             this.tabPage1.Controls.Add(this.pictureBox1);
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(475, 187);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -293,7 +301,7 @@ namespace FaceAI
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label5.Location = new System.Drawing.Point(167, 78);
+            this.label5.Location = new System.Drawing.Point(167, 93);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(92, 17);
             this.label5.TabIndex = 15;
@@ -304,9 +312,9 @@ namespace FaceAI
             this.listBox1.FormattingEnabled = true;
             this.listBox1.HorizontalScrollbar = true;
             this.listBox1.ItemHeight = 15;
-            this.listBox1.Location = new System.Drawing.Point(167, 98);
+            this.listBox1.Location = new System.Drawing.Point(167, 113);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(302, 79);
+            this.listBox1.Size = new System.Drawing.Size(302, 64);
             this.listBox1.TabIndex = 14;
             // 
             // label4
@@ -368,6 +376,40 @@ namespace FaceAI
             this.label6.Size = new System.Drawing.Size(97, 20);
             this.label6.TabIndex = 15;
             this.label6.Text = "Info Console";
+            // 
+            // txtField
+            // 
+            this.txtField.Location = new System.Drawing.Point(323, 53);
+            this.txtField.Name = "txtField";
+            this.txtField.ReadOnly = true;
+            this.txtField.Size = new System.Drawing.Size(146, 23);
+            this.txtField.TabIndex = 16;
+            // 
+            // txtCompany
+            // 
+            this.txtCompany.Location = new System.Drawing.Point(167, 53);
+            this.txtCompany.Name = "txtCompany";
+            this.txtCompany.ReadOnly = true;
+            this.txtCompany.Size = new System.Drawing.Size(150, 23);
+            this.txtCompany.TabIndex = 17;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(167, 35);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(59, 15);
+            this.label7.TabIndex = 18;
+            this.label7.Text = "Company";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(319, 35);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(32, 15);
+            this.label8.TabIndex = 19;
+            this.label8.Text = "Field";
             // 
             // HomePage
             // 
@@ -437,6 +479,10 @@ namespace FaceAI
         private System.Windows.Forms.Button btnEdit;
         private System.Windows.Forms.ListBox lstConsole;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox txtCompany;
+        private System.Windows.Forms.TextBox txtField;
     }
 }
 

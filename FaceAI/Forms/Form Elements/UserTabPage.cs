@@ -15,7 +15,8 @@ namespace FaceAI.Forms.Form_Elements
         private PictureBox profileImage;
         private Label userLabel;
         private ListBox onlineProfiles;
-        private Label label1;
+        private Label label1, label2, label3;
+        private TextBox txtCompany, txtField;
 
         public UserTabPage(string name, string text, User user, Bitmap image)
         {
@@ -25,6 +26,10 @@ namespace FaceAI.Forms.Form_Elements
             SetupListbox(name);
             AddStatic(name);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.txtCompany);
+            this.Controls.Add(this.txtField);
             this.Controls.Add(this.ProfileImage);
             this.Controls.Add(this.UserLabel);
             this.Controls.Add(this.OnlineProfiles);
@@ -39,6 +44,9 @@ namespace FaceAI.Forms.Form_Elements
             this.UserLabel.Text = String.Format("{0} {1}", this.User.First_name, this.User.Surname);
             this.ProfileImage.SizeMode = PictureBoxSizeMode.Zoom;
             this.ProfileImage.Image = image;
+
+            this.txtCompany.Text= user.Company;
+            this.txtField.Text = user.Field;
 
             foreach(Profiles profile in this.User.Profiles)
             {
@@ -76,21 +84,52 @@ namespace FaceAI.Forms.Form_Elements
             this.OnlineProfiles = new ListBox();
             this.OnlineProfiles.FormattingEnabled = true;
             this.OnlineProfiles.ItemHeight = 15;
-            this.OnlineProfiles.Location = new System.Drawing.Point(167, 98);
+            this.OnlineProfiles.Location = new System.Drawing.Point(167, 113);
             this.OnlineProfiles.Name = $"lst{name}";
-            this.OnlineProfiles.Size = new System.Drawing.Size(302, 79);
+            this.OnlineProfiles.Size = new System.Drawing.Size(302, 64);
             this.OnlineProfiles.HorizontalScrollbar = true;
         }
 
         private void AddStatic(string name)
         {
             this.label1 = new Label();
+            this.label2 = new Label();
+            this.label3 = new Label();
+            this.txtCompany = new TextBox();
+            this.txtField = new TextBox();
+
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label1.Location = new System.Drawing.Point(167, 78);
-            this.label1.Name = $"lbl{name}";
+            this.label1.Location = new System.Drawing.Point(167, 93);
+            this.label1.Name = $"lbl{name}1";
             this.label1.Size = new System.Drawing.Size(92, 17);
             this.label1.Text = "Online Profiles";
+
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(167, 35);
+            this.label2.Name = $"lbl{name}2";
+            this.label2.Size = new System.Drawing.Size(59, 15);
+            this.label2.TabIndex = 18;
+            this.label2.Text = "Company";
+
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(319, 35);
+            this.label3.Name = $"lbl{name}3";
+            this.label3.Size = new System.Drawing.Size(32, 15);
+            this.label3.TabIndex = 19;
+            this.label3.Text = "Field";
+
+            this.txtField.Location = new System.Drawing.Point(323, 53);
+            this.txtField.Name = $"txt{name}1"; ;
+            this.txtField.ReadOnly = true;
+            this.txtField.Size = new System.Drawing.Size(146, 23);
+            this.txtField.TabIndex = 16;
+
+            this.txtCompany.Location = new System.Drawing.Point(167, 53);
+            this.txtCompany.Name = $"txt{name}2";
+            this.txtCompany.ReadOnly = true;
+            this.txtCompany.Size = new System.Drawing.Size(150, 23);
+            this.txtCompany.TabIndex = 17;
         }
     }
 }

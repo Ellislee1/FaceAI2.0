@@ -20,11 +20,16 @@ namespace FaceAI
     public partial class EditUser : Form
     {
         private readonly string PATH_TO_TEMP;
+        private Database dbs;
+        private User user;
 
-        public EditUser(string tempPath)
+        public EditUser(string tempPath, User user)
         {
             this.PATH_TO_TEMP = tempPath;
             InitializeComponent();
+            this.user = user;
+
+            dbs = new Database();
         }
 
         private void btnLeft_Click(object sender, EventArgs e)
@@ -53,6 +58,16 @@ namespace FaceAI
                 lstSelectedItems.Items.Remove(item);
                 lstItems.Items.Add(item);
             }
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            this.user.Field = cboField.Text;
+            this.user.Company = textBox1.Text.Trim();
+
+            dbs.Update(this.user);
+
+            this.Close();
         }
     }
 }
