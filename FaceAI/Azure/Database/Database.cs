@@ -206,7 +206,13 @@ namespace FaceAI.Azure.Database
                         {
                             List<string> image = new List<string>();
                             image.Add(filename);
-                            thisUser = new User(reader.GetString(0).Trim(), null, reader.GetString(1).Trim(), reader.GetString(2).Trim(), image, null, 0,  reader.GetString(4).Trim(), reader.GetString(5).Trim());
+                            try
+                            {
+                                thisUser = new User(reader.GetString(0).Trim(), null, reader.GetString(1).Trim(), reader.GetString(2).Trim(), image, null, 0, reader.GetString(4).Trim(), reader.GetString(5).Trim());
+                            } catch (Exception)
+                            {
+                                thisUser = new User(reader.GetString(0).Trim(), null, reader.GetString(1).Trim(), reader.GetString(2).Trim(), image, null, 0, "", "");
+                            }
                             break;
                         }
                         reader.Close();
